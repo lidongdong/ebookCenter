@@ -20,7 +20,6 @@ public class Page extends JPanel{
     public Page(int width, int height) {//毫米转换为像素
         this.setSize(width*Toolkit.getDefaultToolkit().getScreenResolution(), height*Toolkit.getDefaultToolkit().getScreenResolution());
         this.setBackground(Color.WHITE);
-       
     }
 
     @Override

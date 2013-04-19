@@ -178,6 +178,11 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu1.setText("文件");
 
         jMenuItem4.setText("新建项目");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseClicked(evt);
+            }
+        });
         jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("新建页面");
@@ -241,6 +246,10 @@ public class makeWindow extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4MouseClicked
 
     /**
      * @param args the command line arguments
