@@ -12,6 +12,7 @@ import java.util.List;
  * @author think
  */
 public class Project {
+    private String name;
     private List<Page> pages;
     private int currentPage;
     private int pageWidth;
@@ -19,7 +20,8 @@ public class Project {
     public Project() {
         pages = new ArrayList<Page>();
     }
-    public Project(int pNumber,int pageWidth, int pageHeight){
+    public Project(String name, int pNumber,int pageWidth, int pageHeight){
+        this.name = name;
         for(int i = 0;i<pNumber;i++){
             pages.add(new Page(pageWidth, pageHeight));
         }
@@ -36,5 +38,13 @@ public class Project {
     }
     public void fileRead(){
         
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
