@@ -40,6 +40,11 @@ public class mainWindow extends javax.swing.JFrame {
         jButton1.setPreferredSize(new java.awt.Dimension(93, 23));
 
         jButton2.setText("电子书制作");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jButton3.setText("电子书转换");
 
@@ -87,6 +92,13 @@ public class mainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        makeWindow mw = new makeWindow();
+        this.setVisible(false);
+        mw.setVisible(true);
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments

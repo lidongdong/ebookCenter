@@ -178,9 +178,9 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu1.setText("文件");
 
         jMenuItem4.setText("新建项目");
-        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jMenuItem4MouseClicked(evt);
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
             }
         });
         jMenu1.add(jMenuItem4);
@@ -238,7 +238,7 @@ public class makeWindow extends javax.swing.JFrame {
 
         pictureContainer.addPicture(file);
         pictureContainer.repaint();
-        l = pictureContainer.getPictureList();
+        l = pictureContainer.getPictureList();//测试用
         for (int i = 0; i < l.getLength(); i++) {
             System.out.print(l.getFile(i).getAbsolutePath());
             System.out.print("\n");
@@ -247,19 +247,24 @@ public class makeWindow extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem4MouseClicked
+     String str = evt.getActionCommand();
+     if(str == "新建项目"){
+         NewProjectWindow npw = new NewProjectWindow();
+         npw.setVisible(true);
+         npw.setAlwaysOnTop(true);
+         this.setEnabled(false);
+         npw.setParent(this);
+     }
+     
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+   /* public static void main(String args[]) {
+       
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -276,15 +281,13 @@ public class makeWindow extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(makeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new makeWindow().setVisible(true);
             }
         });
-    }
+    }*/
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
