@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -39,6 +40,7 @@ public class PictureContainer extends JPanel {
         pictureList = new PictureList();
         this.setSize(jPanel.getWidth(),jPanel.getHeight());
         this.setLocation(0, 0);
+        JScrollPane jsp = new JScrollPane(this);
     }
 
     @Override

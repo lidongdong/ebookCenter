@@ -4,6 +4,8 @@
  */
 package ebookcenter;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author think

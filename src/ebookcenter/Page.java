@@ -18,7 +18,8 @@ public class Page extends JPanel{
    
     
     public Page(int width, int height) {//毫米转换为像素
-        this.setSize(width*Toolkit.getDefaultToolkit().getScreenResolution(), height*Toolkit.getDefaultToolkit().getScreenResolution());
+        this.setSize((int)(width*Toolkit.getDefaultToolkit().getScreenResolution()/25.4), 
+                (int)(height*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));
         this.setBackground(Color.WHITE);
     }
 
@@ -30,7 +31,13 @@ public class Page extends JPanel{
     public void setBackground(){//自定义设置背景
         
     }
-
+    public void selectBounds(PageArea pageArea){
+        if(this.getWidth()>=pageArea.getWidth()){
+            this.setBounds(20, 20, this.getWidth(), this.getHeight());
+        }else{
+            this.setBounds((int)((pageArea.getWidth()-this.getWidth())/2), 20, this.getWidth(), this.getHeight());
+        }
+    }
     public double getZoom() {
         return zoom;
     }

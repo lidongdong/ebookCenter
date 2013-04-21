@@ -7,12 +7,53 @@ package ebookcenter;
 import java.awt.BorderLayout;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author think
  */
 public class makeWindow extends javax.swing.JFrame {
+    
+    private Project currentProject;
+    private PageArea pageArea;
+
+    /**
+     * Get the value of pageArea
+     *
+     * @return the value of pageArea
+     */
+    public PageArea getPageArea() {
+        return pageArea;
+    }
+
+    /**
+     * Set the value of pageArea
+     *
+     * @param pageArea new value of pageArea
+     */
+    public void setPageArea(PageArea pageArea) {
+        this.pageArea = pageArea;
+    }
+
+    /**
+     * Get the value of currentProject
+     *
+     * @return the value of currentProject
+     */
+    public Project getCurrentProject() {
+        return currentProject;
+    }
+
+    /**
+     * Set the value of currentProject
+     *
+     * @param currentProject new value of currentProject
+     */
+    public void setCurrentProject(Project currentProject) {
+        this.currentProject = currentProject;
+    }
 
     PictureList l;
 
@@ -21,9 +62,10 @@ public class makeWindow extends javax.swing.JFrame {
      */
     public makeWindow() {
         initComponents();
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH); //制作窗口初始最大化
         pictureContainer = new PictureContainer(jPanel1);
-     
         jPanel1.add(pictureContainer, BorderLayout.CENTER);
+        pageArea = new PageArea(jPanel5);
     }
     private PictureContainer pictureContainer;
 

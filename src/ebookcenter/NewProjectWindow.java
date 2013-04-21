@@ -4,6 +4,7 @@
  */
 package ebookcenter;
 
+import java.awt.Toolkit;
 import javax.swing.ButtonModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,6 +20,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
      */
     public NewProjectWindow() {
         initComponents();
+        this.jRadioButton1.setSelected(true);
+        this.pageHeight.setEnabled(false);
+        this.pageWidth.setEnabled(false);
     }
 
     /**
@@ -45,6 +49,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         projectName = new javax.swing.JTextField();
         newPageNumber = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -56,12 +61,27 @@ public class NewProjectWindow extends javax.swing.JFrame {
 
         pageSize.add(jRadioButton1);
         jRadioButton1.setText("A4");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
 
         pageSize.add(jRadioButton2);
         jRadioButton2.setText("A3");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
 
         pageSize.add(jRadioButton3);
         jRadioButton3.setText("自定义");
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("宽（mm）");
 
@@ -89,6 +109,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
 
         newPageNumber.setPreferredSize(new java.awt.Dimension(72, 25));
 
+        jLabel6.setText("(不填默认为0)");
+        jLabel6.setPreferredSize(new java.awt.Dimension(85, 15));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,11 +127,12 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButton1)
+                                    .addComponent(jRadioButton2)
+                                    .addComponent(jRadioButton3)
+                                    .addComponent(newPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jRadioButton1)
-                                            .addComponent(jRadioButton2)
-                                            .addComponent(jRadioButton3))
                                         .addGap(38, 38, 38)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -119,7 +143,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                                 .addComponent(jLabel4)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(pageWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addComponent(newPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
@@ -144,7 +170,8 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(newPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(newPageNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton1)
@@ -167,36 +194,76 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
+        jLabel6.getAccessibleContext().setAccessibleName("（不填默认为0）");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
+        //取消按钮处理
         this.dispose();
         this.getParent().setEnabled(true);
+        
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        //确定按钮处理
+        boolean flag = false;
         if (this.projectName.getText().toString().length() == 0) {
             JOptionPane.showMessageDialog(null, "用户名不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
         } else {
             if (this.newPageNumber.getText().toString().length() == 0) {
                 //新建空项目
+                Project project = new Project();
+                project.setName(this.projectName.getText().toString());
+                this.parent.setCurrentProject(project);
+                flag = true;
             } else {
                 if (this.newPageNumber.getText().toString().matches("[0-9]*")) {
                     if (this.jRadioButton1.isSelected()) {
-                        System.out.print("第一项");//A4纸
+                        this.pageHeight.setEditable(false);
+                        this.pageWidth.setEditable(false);
+                        //System.out.print("第一项");//A4纸
+                        Project project = new Project(this.projectName.getText().toString(),
+                                Integer.parseInt(this.newPageNumber.getText().toString()),
+                                210,
+                                297);
+                        project.setName(this.projectName.getText().toString());
+                        this.parent.setCurrentProject(project);
+                        this.parent.getCurrentProject().setCurrentPage(0);
+                       this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                        this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
+                        //this.parent.getCurrentProject().getPage(0).setVisible(true);
+                        flag = true;
                     } else {
                         if (this.jRadioButton2.isSelected()) {
-                            System.out.print("第二项");//A3纸
+                            //System.out.print("第二项");//A3纸
+                            Project project = new Project(this.projectName.getText().toString(),
+                                    Integer.parseInt(this.newPageNumber.getText().toString()),
+                                    297, 420);
+                            project.setName(this.projectName.getText().toString());
+                            this.parent.setCurrentProject(project);
+                            flag = true;
                         } else {
                             if (this.jRadioButton3.isSelected()) {
-                                System.out.print("第三项");//自定义
-                                if(this.pageWidth.getText().toString().length()==0||this.pageHeight.getText().toString().length()==0||Integer.parseInt(this.pageHeight.getText().toString())==0||Integer.parseInt(this.pageWidth.getText().toString())==0)JOptionPane.showMessageDialog(null, "自定义页面的宽和高不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
-                                else{
-                                    if(this.pageWidth.getText().toString().matches("[0-9]*")&&this.pageHeight.getText().toString().matches("[0-9]*")){
+                               // System.out.print("第三项");//自定义
+                                if (this.pageWidth.getText().toString().length() == 0
+                                        || this.pageHeight.getText().toString().length() == 0
+                                        || Integer.parseInt(this.pageHeight.getText().toString()) == 0
+                                        || Integer.parseInt(this.pageWidth.getText().toString()) == 0) {
+                                    JOptionPane.showMessageDialog(null, "自定义页面的宽和高不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
+                                } else {
+                                    if (this.pageWidth.getText().toString().matches("[0-9]*") && this.pageHeight.getText().toString().matches("[0-9]*")) {
                                         //建立自定义大小的页面
+                                        Project project = new Project(this.projectName.getText().toString(),
+                                                Integer.parseInt(this.newPageNumber.getText().toString()),
+                                                Integer.parseInt(this.pageWidth.getText().toString()),
+                                                Integer.parseInt(this.pageHeight.getText().toString()));
+                                        project.setName(this.projectName.getText().toString());
+                                        this.parent.setCurrentProject(project);
+                                        flag = true;
                                     }
                                 }
                             }
@@ -207,10 +274,47 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 }
             }
         }
-
-
-
+        if(flag==true){
+        this.dispose();
+        this.getParent().setEnabled(true);
+        this.getParent().getPageArea().repaint();
+        }
+        
+        /*System.out.print(parent.getCurrentProject().getName());
+         System.out.print(parent.getCurrentProject().getCurrentPage());
+         System.out.print(parent.getCurrentProject().getPageHeight()+"\n");
+         System.out.print(parent.getCurrentProject().getPageWidth());
+         System.out.print(parent.getCurrentProject().getPages().size());
+         */
+        
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+         //只在自定义中允许填写纸张的高和宽
+        if(evt.getActionCommand()=="A4"){
+            this.pageHeight.setEnabled(false);
+            this.pageWidth.setEnabled(false);
+        }
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+        // TODO add your handling code here:
+         //只在自定义中允许填写纸张的高和宽
+        if(evt.getActionCommand()=="A3"){
+            this.pageHeight.setEnabled(false);
+            this.pageWidth.setEnabled(false);
+        }
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+        // TODO add your handling code here:
+        //只在自定义中允许填写纸张的高和宽
+        if(evt.getActionCommand()=="自定义"){
+            this.pageHeight.setEnabled(true);
+            this.pageWidth.setEnabled(true);
+        }
+    }//GEN-LAST:event_jRadioButton3ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -250,6 +354,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
@@ -259,14 +364,14 @@ public class NewProjectWindow extends javax.swing.JFrame {
     private javax.swing.JTextField pageWidth;
     private javax.swing.JTextField projectName;
     // End of variables declaration//GEN-END:variables
-    private JFrame parent;
+    private makeWindow parent;
 
     /**
      * Get the value of parent
      *
      * @return the value of parent
      */
-    public JFrame getParent() {
+    public makeWindow getParent() {
         return parent;
     }
 
@@ -275,7 +380,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
      *
      * @param parent new value of parent
      */
-    public void setParent(JFrame parent) {
+    public void setParent(makeWindow parent) {
         this.parent = parent;
     }
 }
