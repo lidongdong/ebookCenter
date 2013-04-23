@@ -27,6 +27,7 @@ public class PictureContainer extends JPanel {
 
     private PictureList pictureList;
     private Image image;
+    private int myWidth;
 
     public PictureList getPictureList() {
         return pictureList;
@@ -38,22 +39,22 @@ public class PictureContainer extends JPanel {
 
     public PictureContainer(JPanel jPanel) {
         pictureList = new PictureList();
-        this.setSize(jPanel.getWidth(),jPanel.getHeight());
+        myWidth = jPanel.getWidth();
+        this.setPreferredSize(new Dimension(jPanel.getWidth(), this.getPictureList().getLength() * 120 + 30));
         this.setLocation(0, 0);
-        JScrollPane jsp = new JScrollPane(this);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-       super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-         for(int i = 0;i<pictureList.getLength();i++){
+        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < pictureList.getLength(); i++) {
             try {
                 image = ImageIO.read(pictureList.getFile(i).getAbsoluteFile());
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(PictureContainer.class.getName()).log(Level.SEVERE, null, ex);
             }
-            g.drawImage(image, 20, 20+110*i, 80, 80, this);
+            g.drawImage(image, 20, 20 + 110 * i, 80, 80, this);
         }
     }
 
@@ -71,6 +72,6 @@ public class PictureContainer extends JPanel {
                 }
             }
         }
-
+this.setPreferredSize(new Dimension(myWidth, this.getPictureList().getLength() * 120 + 30));
     }
 }

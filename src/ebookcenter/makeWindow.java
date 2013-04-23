@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -64,7 +65,10 @@ public class makeWindow extends javax.swing.JFrame {
         initComponents();
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); //制作窗口初始最大化
         pictureContainer = new PictureContainer(jPanel1);
-        jPanel1.add(pictureContainer, BorderLayout.CENTER);
+        JScrollPane pictureJsp = new JScrollPane(pictureContainer,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jPanel1.add(pictureJsp, BorderLayout.CENTER);
         pageArea = new PageArea(jPanel5);
     }
     private PictureContainer pictureContainer;
@@ -279,7 +283,8 @@ public class makeWindow extends javax.swing.JFrame {
         File file[] = dlg.getSelectedFiles();
 
         pictureContainer.addPicture(file);
-        pictureContainer.repaint();
+        pictureContainer.updateUI();
+        //pictureContainer.repaint();
         l = pictureContainer.getPictureList();//测试用
         for (int i = 0; i < l.getLength(); i++) {
             System.out.print(l.getFile(i).getAbsolutePath());
