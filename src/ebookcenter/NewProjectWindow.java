@@ -52,6 +52,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("电子书制作");
 
         jLabel1.setText("项目名称");
 
@@ -235,7 +236,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
                         this.parent.getCurrentProject().setCurrentPage(0);
                        this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                         this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                        //this.parent.getCurrentProject().getPage(0).setVisible(true);
+                        this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
+                        this.parent.getPageArea().updateUI();
+                     
                         flag = true;
                     } else {
                         if (this.jRadioButton2.isSelected()) {

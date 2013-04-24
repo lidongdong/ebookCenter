@@ -22,7 +22,7 @@ public class Project {
 
     public Project() {
         pages = new ArrayList<Page>();
-        currentPage = 0;
+        currentPage = -1;
     }
 
     public Project(String name, int pNumber, int pageWidth, int pageHeight) {

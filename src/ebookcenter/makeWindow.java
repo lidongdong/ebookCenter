@@ -5,6 +5,9 @@
 package ebookcenter;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -64,12 +67,17 @@ public class makeWindow extends javax.swing.JFrame {
     public makeWindow() {
         initComponents();
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); //制作窗口初始最大化
-        pictureContainer = new PictureContainer(jPanel1);
+        currentProject = null;
+        pictureContainer = new PictureContainer(jPanel1);//图片预览区滚动条
         JScrollPane pictureJsp = new JScrollPane(pictureContainer,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         jPanel1.add(pictureJsp, BorderLayout.CENTER);
-        pageArea = new PageArea(jPanel5);
+        pageArea = new PageArea(jPanel5);//页面编辑区滚动条
+        JScrollPane pageJsp = new JScrollPane(pageArea,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jPanel5.add(pageJsp, BorderLayout.CENTER);
     }
     private PictureContainer pictureContainer;
 
@@ -248,6 +256,11 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("图片框");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("复合框");
@@ -296,6 +309,9 @@ public class makeWindow extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+        /*
+         * 新建“项目菜单”
+         */
      String str = evt.getActionCommand();
      if(str == "新建项目"){
          NewProjectWindow npw = new NewProjectWindow();
@@ -307,10 +323,23 @@ public class makeWindow extends javax.swing.JFrame {
      
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        /*
+         * 插入图片框
+         */
+        String str = evt.getActionCommand();
+        if(str.equals("图片框")){
+            if(this.currentProject!=null&&this.currentProject.getCurrentPage()>=0){
+                this.currentProject.getPage(this.currentProject.getCurrentPage()).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   /* public static void main(String args[]) {
+    public static void main(String args[]) {
        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -334,7 +363,7 @@ public class makeWindow extends javax.swing.JFrame {
                 new makeWindow().setVisible(true);
             }
         });
-    }*/
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
