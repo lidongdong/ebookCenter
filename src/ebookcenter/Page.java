@@ -6,9 +6,12 @@ package ebookcenter;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -21,6 +24,7 @@ public class Page extends JPanel {
 
     private double zoom;//缩放比例
     private ArrayList pictureBoxes;
+    private int orgx, orgy, endx, endy, lastx, lasty;
 
     public Page(int width, int height) {//毫米转换为像素
         pictureBoxes = new ArrayList<>();
@@ -28,46 +32,72 @@ public class Page extends JPanel {
                 (int) (height * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
         this.setBackground(Color.WHITE);
         this.setLayout(null);
-        //鼠标监听
-        this.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
 
+        //鼠标监听
+        this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                orgx = e.getX();
+                orgy = e.getY();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-               // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                super.mouseReleased(e); //To change body of generated methods, choose Tools | Templates.
+                 endx = e.getX();
+                endy = e.getY();
+                //添加图片框
+                 if (endx == orgx || endy == orgy) {
+                } else {
+                    if (endx < orgx) {
+                        if (endy < orgy) {
+                          pictureBoxes.add(new PictureBox(new Rectangle(endx, endy, orgx - endx, orgy - endy)));
+                        } else {
+                           pictureBoxes.add(new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy)));
+                        }
+                    } else {
+                        if (endy < orgy) {
+                           pictureBoxes.add(new PictureBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy)));
+                        } else {
+                           pictureBoxes.add(new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy)));
+                        }
+                    }
+                }
             }
         });
-        this.addMouseMotionListener(new MouseMotionListener() {
+        this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                   System.out.print("x:");
-                   System.out.print(e.getPoint().x);
-                   System.out.print("y:");
-                   System.out.print(e.getPoint().y);
-            }
-
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+                 Graphics g = getGraphics();
+                
+                endx = e.getX();
+                endy = e.getY();
+               
+                recovery();
+                if (endx == orgx || endy == orgy) {
+                } else {
+                    if (endx < orgx) {
+                        if (endy < orgy) {
+                           g.drawRect(endx, endy, orgx - endx, orgy - endy);
+                        
+                        } else {
+                            g.drawRect(endx, orgy, orgx - endx, endy - orgy);
+                         
+                        }
+                    } else {
+                        if (endy < orgy) {
+                           g.drawRect(orgx, endy, endx - orgx, orgy - endy);
+                          
+                        } else {
+                            g.drawRect(orgx, orgy, endx - orgx, endy - orgy);
+                         
+                        }
+                    }
+                }
+               
             }
         });
     }
@@ -76,7 +106,13 @@ public class Page extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    public void recovery(){ //恢复page页面，主要用来擦出画矩形框时鼠标拖动过程中的框
+        Graphics g = getGraphics();
+        //添加背景(后期使用setBackground重写)
+        g.setColor(Color.white);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+    }
     public void setBackground() {//自定义设置背景
     }
 
