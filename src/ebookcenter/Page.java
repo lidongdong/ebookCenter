@@ -23,16 +23,15 @@ import javax.swing.JPanel;
 public class Page extends JPanel {
 
     private double zoom;//缩放比例
-    private ArrayList pictureBoxes;
-    private int orgx, orgy, endx, endy, lastx, lasty;
+    private ArrayList<PictureBox> pictureBoxes;
+    private int orgx, orgy, endx, endy;
 
     public Page(int width, int height) {//毫米转换为像素
-        pictureBoxes = new ArrayList<>();
+        pictureBoxes = new ArrayList<PictureBox>();
         this.setSize((int) (width * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4),
                 (int) (height * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
         this.setBackground(Color.WHITE);
         this.setLayout(null);
-
         //鼠标监听
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -64,6 +63,7 @@ public class Page extends JPanel {
                         }
                     }
                 }
+                
             }
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
@@ -93,7 +93,7 @@ public class Page extends JPanel {
                           
                         } else {
                             g.drawRect(orgx, orgy, endx - orgx, endy - orgy);
-                         
+                            
                         }
                     }
                 }
@@ -105,15 +105,28 @@ public class Page extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        
+        //图片框
+        
     }
     
     public void recovery(){ //恢复page页面，主要用来擦出画矩形框时鼠标拖动过程中的框
-        Graphics g = getGraphics();
-        //添加背景(后期使用setBackground重写)
-        g.setColor(Color.white);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+         //添加背景(后期使用setBackground重写)
+        setBackground();
+       
     }
     public void setBackground() {//自定义设置背景
+        Graphics g = getGraphics();
+       
+        g.setColor(Color.white);
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+        
+       if(pictureBoxes.size()>0){
+           for(int i = 0;i<pictureBoxes.size();i++){
+              this.add(pictureBoxes.get(i));
+              g.drawRect(pictureBoxes.get(i).getRect().x, pictureBoxes.get(i).getRect().y, pictureBoxes.get(i).getRect().width, pictureBoxes.get(i).getRect().height);
+           }
+        }
     }
 
     public void selectBounds(PageArea pageArea) {

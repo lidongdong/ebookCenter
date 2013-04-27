@@ -4,11 +4,13 @@
  */
 package ebookcenter;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -90,6 +92,7 @@ public class PictureBox extends JPanel implements MouseListener, MouseMotionList
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        g.drawRect(rect.x, rect.y, rect.width, rect.height);
     }
 
     public void setRect(int x, int y, int width, int height) {
