@@ -330,6 +330,7 @@ public class makeWindow extends javax.swing.JFrame {
          */
         String str = evt.getActionCommand();
         if(str.equals("图片框")){
+            this.currentProject.getPage(this.currentProject.getCurrentPage()).setInsertStatus(Constant.ADD_PICTURE);
             if(this.currentProject!=null&&this.currentProject.getCurrentPage()>=0){
                 this.currentProject.getPage(this.currentProject.getCurrentPage()).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
             }

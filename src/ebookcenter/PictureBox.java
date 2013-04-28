@@ -26,7 +26,7 @@ import javax.swing.JPanel;
  *
  * @author Administrator
  */
-public class PictureBox extends JPanel implements MouseListener, MouseMotionListener {
+public class PictureBox implements MouseListener, MouseMotionListener {
 
     private Rectangle rect;
     private File pictureFile;
@@ -36,11 +36,10 @@ public class PictureBox extends JPanel implements MouseListener, MouseMotionList
 
     public PictureBox(Rectangle rect) {
         this.rect = rect;
-        this.setBounds(this.rect);
-        this.setBackground(Color.red);
+        
         layer = 2;
         isUsed = false;
-        this.setLayout(null);
+       
     }
 
     public Boolean isInner(Point point) {
@@ -79,28 +78,17 @@ public class PictureBox extends JPanel implements MouseListener, MouseMotionList
         return ((point.x == (rect.x + rect.width)) && (point.y == (rect.y + rect.height)));
     }
 
-    public void loadImage() {
-        try {
-            image = ImageIO.read(pictureFile);
-            System.out.print(image.getHeight(this));
-            System.out.print(image.getWidth(this));
-        } catch (IOException ex) {
-            Logger.getLogger(PictureBox.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+    public void drawSelf(Graphics g){
         g.drawRect(rect.x, rect.y, rect.width, rect.height);
     }
+
+   
 
     public void setRect(int x, int y, int width, int height) {
         this.rect.x = x;
         this.rect.y = y;
         this.rect.width = width;
         this.rect.height = height;
-        this.setBounds(this.rect);
     }
 
     public Rectangle getRect() {

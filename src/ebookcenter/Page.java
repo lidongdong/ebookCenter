@@ -5,6 +5,7 @@
 package ebookcenter;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -25,6 +26,8 @@ public class Page extends JPanel {
     private double zoom;//缩放比例
     private ArrayList<PictureBox> pictureBoxes;
     private int orgx, orgy, endx, endy;
+    private int insertStatus;
+    private boolean isRightButton;
 
     public Page(int width, int height) {//毫米转换为像素
         pictureBoxes = new ArrayList<PictureBox>();
@@ -32,6 +35,8 @@ public class Page extends JPanel {
                 (int) (height * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
         this.setBackground(Color.WHITE);
         this.setLayout(null);
+        insertStatus = Constant.NONE;
+        isRightButton = false;
         //鼠标监听
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -39,65 +44,79 @@ public class Page extends JPanel {
                 // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 orgx = e.getX();
                 orgy = e.getY();
+                if(e.getButton() == MouseEvent.BUTTON3)isRightButton = true;
+                else{isRightButton = false;}
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e); //To change body of generated methods, choose Tools | Templates.
-                 endx = e.getX();
+                endx = e.getX();
                 endy = e.getY();
                 //添加图片框
-                 if (endx == orgx || endy == orgy) {
-                } else {
-                    if (endx < orgx) {
-                        if (endy < orgy) {
-                          pictureBoxes.add(new PictureBox(new Rectangle(endx, endy, orgx - endx, orgy - endy)));
-                        } else {
-                           pictureBoxes.add(new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy)));
-                        }
+                if (insertStatus == Constant.ADD_PICTURE && e.getButton() == MouseEvent.BUTTON1) {
+                    if (endx == orgx || endy == orgy) {
                     } else {
-                        if (endy < orgy) {
-                           pictureBoxes.add(new PictureBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy)));
+                        if (endx < orgx) {
+                            if (endy < orgy) {
+                                pictureBoxes.add(new PictureBox(new Rectangle(endx, endy, orgx - endx, orgy - endy)));
+                            } else {
+                                pictureBoxes.add(new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy)));
+                            }
                         } else {
-                           pictureBoxes.add(new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy)));
+                            if (endy < orgy) {
+                                pictureBoxes.add(new PictureBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy)));
+                            } else {
+                                pictureBoxes.add(new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy)));
+                            }
                         }
                     }
+                    recovery();
+                } else {
+                    if (e.getButton() == MouseEvent.BUTTON3) {
+                        insertStatus = Constant.NONE;
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
                 }
-                
             }
         });
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                
-                 Graphics g = getGraphics();
-                
-                endx = e.getX();
-                endy = e.getY();
-               
-                recovery();
-                if (endx == orgx || endy == orgy) {
+
+                Graphics g = getGraphics();
+                if (e.getButton() == MouseEvent.BUTTON1) {
                 } else {
-                    if (endx < orgx) {
-                        if (endy < orgy) {
-                           g.drawRect(endx, endy, orgx - endx, orgy - endy);
+                    if(isRightButton == true){
                         
+                    }else{
+                    endx = e.getX();
+                    endy = e.getY();
+                    if (insertStatus == Constant.ADD_PICTURE) {
+                        recovery();
+                        if (endx == orgx || endy == orgy) {
                         } else {
-                            g.drawRect(endx, orgy, orgx - endx, endy - orgy);
-                         
+                            if (endx < orgx) {
+                                if (endy < orgy) {
+                                    g.drawRect(endx, endy, orgx - endx, orgy - endy);
+
+                                } else {
+                                    g.drawRect(endx, orgy, orgx - endx, endy - orgy);
+
+                                }
+                            } else {
+                                if (endy < orgy) {
+                                    g.drawRect(orgx, endy, endx - orgx, orgy - endy);
+
+                                } else {
+                                    g.drawRect(orgx, orgy, endx - orgx, endy - orgy);
+
+                                }
+                            }
                         }
-                    } else {
-                        if (endy < orgy) {
-                           g.drawRect(orgx, endy, endx - orgx, orgy - endy);
-                          
-                        } else {
-                            g.drawRect(orgx, orgy, endx - orgx, endy - orgy);
-                            
-                        }
-                    }
+                    }}
                 }
-               
             }
         });
     }
@@ -105,27 +124,27 @@ public class Page extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
-        
+
         //图片框
-        
+
     }
-    
-    public void recovery(){ //恢复page页面，主要用来擦出画矩形框时鼠标拖动过程中的框
-         //添加背景(后期使用setBackground重写)
+
+    public void recovery() { //恢复page页面，主要用来擦出画矩形框时鼠标拖动过程中的框
+        //添加背景(后期使用setBackground重写)
         setBackground();
-       
+
     }
+
     public void setBackground() {//自定义设置背景
         Graphics g = getGraphics();
-       
+
         g.setColor(Color.white);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        
-       if(pictureBoxes.size()>0){
-           for(int i = 0;i<pictureBoxes.size();i++){
-              this.add(pictureBoxes.get(i));
-              g.drawRect(pictureBoxes.get(i).getRect().x, pictureBoxes.get(i).getRect().y, pictureBoxes.get(i).getRect().width, pictureBoxes.get(i).getRect().height);
-           }
+        g.setColor(Color.black);
+        if (pictureBoxes.size() > 0) {
+            for (int i = 0; i < pictureBoxes.size(); i++) {
+                pictureBoxes.get(i).drawSelf(g);
+            }
         }
     }
 
@@ -151,5 +170,23 @@ public class Page extends JPanel {
 
     public void setZoom(double zoom) {
         this.zoom = zoom;
+    }
+
+    /**
+     * Get the value of insertStatus
+     *
+     * @return the value of insertStatus
+     */
+    public int getInsertStatus() {
+        return insertStatus;
+    }
+
+    /**
+     * Set the value of insertStatus
+     *
+     * @param insertStatus new value of insertStatus
+     */
+    public void setInsertStatus(int insertStatus) {
+        this.insertStatus = insertStatus;
     }
 }

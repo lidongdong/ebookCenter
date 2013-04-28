@@ -54,6 +54,7 @@ public class PictureContainer extends JPanel {
             } catch (IOException ex) {
                 Logger.getLogger(PictureContainer.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             g.drawImage(image, 20, 20 + 110 * i, 80, 80, this);
         }
     }
