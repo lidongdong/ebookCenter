@@ -205,7 +205,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         //取消按钮处理
         this.dispose();
         this.getParent().setEnabled(true);
-        
+
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -234,11 +234,11 @@ public class NewProjectWindow extends javax.swing.JFrame {
                         project.setName(this.projectName.getText().toString());
                         this.parent.setCurrentProject(project);
                         this.parent.getCurrentProject().setCurrentPage(0);
-                       this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                        this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                         this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
                         this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
                         this.parent.getPageArea().updateUI();
-                     
+
                         flag = true;
                     } else {
                         if (this.jRadioButton2.isSelected()) {
@@ -251,7 +251,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
                             flag = true;
                         } else {
                             if (this.jRadioButton3.isSelected()) {
-                               // System.out.print("第三项");//自定义
+                                // System.out.print("第三项");//自定义
                                 if (this.pageWidth.getText().toString().length() == 0
                                         || this.pageHeight.getText().toString().length() == 0
                                         || Integer.parseInt(this.pageHeight.getText().toString()) == 0
@@ -277,25 +277,25 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 }
             }
         }
-        if(flag==true){
-        this.dispose();
-        this.getParent().setEnabled(true);
-        this.getParent().getPageArea().repaint();
+        if (flag == true) {
+            this.dispose();
+            this.getParent().setEnabled(true);
+            this.getParent().getPageArea().repaint();
         }
-        
+
         /*System.out.print(parent.getCurrentProject().getName());
          System.out.print(parent.getCurrentProject().getCurrentPage());
          System.out.print(parent.getCurrentProject().getPageHeight()+"\n");
          System.out.print(parent.getCurrentProject().getPageWidth());
          System.out.print(parent.getCurrentProject().getPages().size());
          */
-        
+
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-         //只在自定义中允许填写纸张的高和宽
-        if(evt.getActionCommand()=="A4"){
+        //只在自定义中允许填写纸张的高和宽
+        if (evt.getActionCommand() == "A4") {
             this.pageHeight.setEnabled(false);
             this.pageWidth.setEnabled(false);
         }
@@ -303,8 +303,8 @@ public class NewProjectWindow extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-         //只在自定义中允许填写纸张的高和宽
-        if(evt.getActionCommand()=="A3"){
+        //只在自定义中允许填写纸张的高和宽
+        if (evt.getActionCommand() == "A3") {
             this.pageHeight.setEnabled(false);
             this.pageWidth.setEnabled(false);
         }
@@ -313,7 +313,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         // TODO add your handling code here:
         //只在自定义中允许填写纸张的高和宽
-        if(evt.getActionCommand()=="自定义"){
+        if (evt.getActionCommand() == "自定义") {
             this.pageHeight.setEnabled(true);
             this.pageWidth.setEnabled(true);
         }

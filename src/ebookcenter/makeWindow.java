@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
  * @author think
  */
 public class makeWindow extends javax.swing.JFrame {
-    
+
     private Project currentProject;
     private PageArea pageArea;
 
@@ -58,8 +58,6 @@ public class makeWindow extends javax.swing.JFrame {
     public void setCurrentProject(Project currentProject) {
         this.currentProject = currentProject;
     }
-
-    PictureList l;
 
     /**
      * Creates new form makeWindow
@@ -253,6 +251,11 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu3.setText("插入");
 
         jMenuItem1.setText("文本框");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("图片框");
@@ -296,13 +299,8 @@ public class makeWindow extends javax.swing.JFrame {
         File file[] = dlg.getSelectedFiles();
 
         pictureContainer.addPicture(file);
+        pictureContainer.showPicture();
         pictureContainer.updateUI();
-        //pictureContainer.repaint();
-        l = pictureContainer.getPictureList();//测试用
-        for (int i = 0; i < l.getLength(); i++) {
-            System.out.print(l.getFile(i).getAbsolutePath());
-            System.out.print("\n");
-        }
 
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -312,15 +310,15 @@ public class makeWindow extends javax.swing.JFrame {
         /*
          * 新建“项目菜单”
          */
-     String str = evt.getActionCommand();
-     if(str == "新建项目"){
-         NewProjectWindow npw = new NewProjectWindow();
-         npw.setVisible(true);
-         npw.setAlwaysOnTop(true);
-         this.setEnabled(false);
-         npw.setParent(this);
-     }
-     
+        String str = evt.getActionCommand();
+        if (str == "新建项目") {
+            NewProjectWindow npw = new NewProjectWindow();
+            npw.setVisible(true);
+            npw.setAlwaysOnTop(true);
+            this.setEnabled(false);
+            npw.setParent(this);
+        }
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -329,19 +327,31 @@ public class makeWindow extends javax.swing.JFrame {
          * 插入图片框
          */
         String str = evt.getActionCommand();
-        if(str.equals("图片框")){
-            this.currentProject.getPage(this.currentProject.getCurrentPage()).setInsertStatus(Constant.ADD_PICTURE);
-            if(this.currentProject!=null&&this.currentProject.getCurrentPage()>=0){
+        if (str.equals("图片框")) {
+            if (this.currentProject != null && this.currentProject.getCurrentPage() >= 0) {
+                this.currentProject.getPage(this.currentProject.getCurrentPage()).setInsertStatus(Constant.ADD_PICTURE);
                 this.currentProject.getPage(this.currentProject.getCurrentPage()).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
             }
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        //插入文本框
+        String str = evt.getActionCommand();
+        if (str.equals("文本框")) {
+            if (this.currentProject != null && this.currentProject.getCurrentPage() >= 0) {
+                this.currentProject.getPage(this.currentProject.getCurrentPage()).setInsertStatus(Constant.ADD_TEXT);
+                this.currentProject.getPage(this.currentProject.getCurrentPage()).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+            }
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -358,7 +368,7 @@ public class makeWindow extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(makeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-       
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new makeWindow().setVisible(true);
@@ -389,5 +399,4 @@ public class makeWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JToolBar jToolBar1;
     // End of variables declaration//GEN-END:variables
-    
 }
