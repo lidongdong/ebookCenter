@@ -50,20 +50,20 @@ public class PictureBoxList {
                 if(temp1<=temp2){
                     if(lCentery >= rCentery){
                         list.get(list.size()-1).setBounds(x,y,width,height - temp1);
-                        list.get(list.size()-1).setRect(x, y, width, height - temp1);
+                       // list.get(list.size()-1).setRect(x, y, width, height - temp1);
                     }
                     else {
                         list.get(list.size()-1).setBounds(x,y+temp1,width,height - temp1);
-                        list.get(list.size()-1).setRect(x,y+temp1,width,height - temp1);
+                       // list.get(list.size()-1).setRect(x,y+temp1,width,height - temp1);
                     }
                 }else{
                     if(lCenterx >= rCenterx){
                         list.get(list.size()-1).setBounds(x,y,width - temp2,height);
-                        list.get(list.size()-1).setRect(x,y,width - temp2,height);
+                        //list.get(list.size()-1).setRect(x,y,width - temp2,height);
                     }
                     else {
                         list.get(list.size()-1).setBounds(x+temp2,y,width-temp2,height);
-                        list.get(list.size()-1).setRect(x+temp2,y,width-temp2,height);
+                        //list.get(list.size()-1).setRect(x+temp2,y,width-temp2,height);
                     }
                 }
             }

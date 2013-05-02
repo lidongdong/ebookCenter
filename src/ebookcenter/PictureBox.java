@@ -24,7 +24,7 @@ import javax.swing.JPanel;
  */
 public class PictureBox extends JLabel implements MouseListener, MouseMotionListener {
 
-    private Rectangle rect;
+    //private Rectangle rect;
     private File pictureFile;
     private int layer;
     private boolean isUsed;
@@ -49,7 +49,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     }
 
     public PictureBox(Rectangle rect) {
-        this.rect = rect;
+        //this.rect = rect;
         this.setBounds(rect);
         layer = 2;
         isUsed = false;
@@ -99,13 +99,13 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       /* int x = e.getX() - rect.x;
-        int y = e.getY() - rect.y;
-        int width = rect.width;
-        int height = rect.height;
+       
+       int x = e.getX();
+        int y = e.getY();
+        int width = getBounds().width;
+        int height =getBounds().height;
         int cursorType = Cursor.DEFAULT_CURSOR;
-        isTopLeft = isTop = isTopRight = isRight = isBottomRight = isBottom = isBottomLeft = isLeft = false;
+        isTopLeft = isTop = isTopRight = isRight = isBottomRight = isBottom = isBottomLeft = isLeft = move = false;
         if (x > 0 && y > 0 && x < width && y < height) {
             if (y <= RESIZE_WIDTH) {
                 if (x <= RESIZE_WIDTH) {
@@ -135,76 +135,73 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             } else if (x >= width - RESIZE_WIDTH) {
                 isRight = true;
                 cursorType = Cursor.E_RESIZE_CURSOR;
-            }//else if(x > RESIZE_WIDTH && x<width - RESIZE_WIDTH && y > RESIZE_WIDTH && y < width - RESIZE_WIDTH){
-              //  move = true;
-             //   cursorType = Cursor.MOVE_CURSOR;
-          //  }
+            }else if (x > RESIZE_WIDTH && x < width - RESIZE_WIDTH && y > RESIZE_WIDTH && y < width - RESIZE_WIDTH) {
+                    move = true;
+                    cursorType = Cursor.MOVE_CURSOR;
+                }
         }
-        setCursor(new Cursor(cursorType));*/
+        setCursor(new Cursor(cursorType));
     }
     
      @Override
     public void mouseDragged(MouseEvent e) {
-       /* int x = e.getX() - rect.x;
-        int y = e.getY() - rect.y;
-        int width = rect.width;
-        int height = rect.height;
-        
-        int nextX = rect.x;
-        int nextY = rect.y;
+       int x = e.getX();
+        int y = e.getY();
+        int width = getBounds().width;
+        int height = getBounds().height;
+
+        int nextX = getBounds().x;
+        int nextY = getBounds().y;
         int nextWidth = width;
         int nextHeight = height;
-        //endx = e.getPoint().x;
-       // endy = e.getPoint().y;
-       // if(move){
-       // move(orgx, orgy, endx, endy);
-       // }
-        if(isTopLeft || isLeft || isBottomLeft) {
-            nextX += x;
-            nextWidth -= x;
-        }
-        if (isTopLeft || isTop || isTopRight) {
-            nextY += y;
-            nextHeight -= y;
-        }
-        if (isTopRight || isRight || isBottomRight) {
-            nextWidth = x;
-        }
-        if (isBottomLeft || isBottom || isBottomRight) {
-            nextHeight = y;
-        }
-        if (nextWidth <= MIN_WIDTH) {
-            nextWidth = MIN_WIDTH;
             if (isTopLeft || isLeft || isBottomLeft) {
-                nextX = rect.x + width - nextWidth;
+                nextX += x;
+                nextWidth -= x;
             }
-        }
-        if (nextHeight <= MIN_HEIGHT) {
-            nextHeight = MIN_HEIGHT;
             if (isTopLeft || isTop || isTopRight) {
-                nextY = rect.y + height - nextHeight;
+                nextY += y;
+                nextHeight -= y;
             }
-        }
-        rect.setRect(nextX, nextY, nextWidth, nextHeight);
-        this.setBounds(nextX, nextY, nextWidth, nextHeight);
-        */
+            if (isTopRight || isRight || isBottomRight) {
+                nextWidth = x;
+            }
+            if (isBottomLeft || isBottom || isBottomRight) {
+                nextHeight = y;
+            }
+            if (nextWidth <= MIN_WIDTH) {
+                nextWidth = MIN_WIDTH;
+                if (isTopLeft || isLeft || isBottomLeft) {
+                    nextX = getBounds().x + width - nextWidth;
+                }
+            }
+            if (nextHeight <= MIN_HEIGHT) {
+                nextHeight = MIN_HEIGHT;
+                if (isTopLeft || isTop || isTopRight) {
+                    nextY = getBounds().y + height - nextHeight;
+                }
+            }
+            if(move){
+                nextX = nextX + (x - orgx);
+                nextY = nextY + (y - orgy);
+            }
+            this.setBounds(nextX, nextY, nextWidth, nextHeight);
     }
 
-    public void move(int orgx, int orgy, int endx, int endy) {
+    /*public void move(int orgx, int orgy, int endx, int endy) {
         if (rect.x + endx - orgx >= 0 && rect.y + endy - orgx >= 0) {
             this.setRect(rect.x + endx - orgx, rect.y + endy - orgx, rect.width, rect.height);
             this.setBounds(rect);
         }
         updateUI();
         //this.setLocation(rect.x+endx-orgx, rect.y+endy-orgx);
-    }
+    }*/
 
     public void drawSelf(Page page) {
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         page.add(this);
     }
 
-    public void setRect(int x, int y, int width, int height) {
+    /*public void setRect(int x, int y, int width, int height) {
         this.rect.x = x;
         this.rect.y = y;
         this.rect.width = width;
@@ -217,7 +214,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     public void setRect(Rectangle rect) {
         this.rect = rect;
-    }
+    }*/
 
     public File getFile() {
         return pictureFile;

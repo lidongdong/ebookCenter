@@ -126,6 +126,10 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
                     nextY = getBounds().y + height - nextHeight;
                 }
             }
+            if(move){
+                nextX = nextX + (x - orgx);
+                nextY = nextY + (y - orgy);
+            }
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
         }
     }
@@ -137,7 +141,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         int width = getBounds().width;
         int height = getBounds().height;
         int cursorType = Cursor.DEFAULT_CURSOR;
-        isTopLeft = isTop = isTopRight = isRight = isBottomRight = isBottom = isBottomLeft = isLeft = false;
+        isTopLeft = isTop = isTopRight = isRight = isBottomRight = isBottom = isBottomLeft = isLeft = move = false;
         if (isEditing) {
         } else {
             if (x > 0 && y > 0 && x < width && y < height) {
@@ -170,6 +174,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
                     isRight = true;
                     cursorType = Cursor.E_RESIZE_CURSOR;
                 } else if (x > RESIZE_WIDTH && x < width - RESIZE_WIDTH && y > RESIZE_WIDTH && y < width - RESIZE_WIDTH) {
+                    move = true;
                     cursorType = Cursor.MOVE_CURSOR;
                 }
             }
