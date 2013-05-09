@@ -205,6 +205,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         //取消按钮处理
         this.dispose();
         this.getParent().setEnabled(true);
+        this.getParent().requestFocus();
 
     }//GEN-LAST:event_jButton2MouseClicked
 
@@ -280,6 +281,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         if (flag == true) {
             this.dispose();
             this.getParent().setEnabled(true);
+            this.getParent().requestFocus();
             this.getParent().getPageArea().repaint();
         }
 

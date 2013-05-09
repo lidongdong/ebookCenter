@@ -4,8 +4,10 @@
  */
 package ebookcenter;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -30,6 +32,23 @@ public class PictureBoxList {
 
     public void add(PictureBox pictureBox) {
         boxList.add(pictureBox);
+    }
+    
+    public PictureBox findBox(Point point){
+        //point须转换为屏幕坐标
+        int x,y,width,height;
+        Point temp = new Point();
+        for(int i = 0; i< this.size(); i++){
+            temp.x = this.get(i).getBounds().x;
+            temp.y = this.get(i).getBounds().y;
+            width = this.get(i).getBounds().width;
+            height = this.get(i).getBounds().height;
+            SwingUtilities.convertPointToScreen(temp, parentPage);
+            if(point.x>temp.x && point.x<temp.x+width && point.y > temp.y && point.y <temp.y + height){
+                return this.get(i);
+            }
+        }
+        return null;
     }
 
     public void impact(List<PictureBox> list) {

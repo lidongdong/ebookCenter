@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -48,6 +49,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         //pictureBoxes.setParentPage(this);
 
         pictureBoxes = new PictureBoxList();
+        pictureBoxes.setParentPage(this);
         textBoxList = new TextBoxList();
 
         pb = new PictureBox();//过程框
@@ -124,14 +126,14 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
                             pictureBoxes.impact(pictureBoxes.getBoxList());
-                            insertPictureBox();
+                            this.add(pictureBox);
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy));
 
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
                             pictureBoxes.impact(pictureBoxes.getBoxList());
-                            insertPictureBox();
+                            this.add(pictureBox);
                         }
                     } else {
                         if (endy < orgy) {
@@ -140,13 +142,13 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
                             pictureBoxes.impact(pictureBoxes.getBoxList());
-                            insertPictureBox();
+                            this.add(pictureBox);
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy));
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
                             pictureBoxes.impact(pictureBoxes.getBoxList());
-                            insertPictureBox();
+                            this.add(pictureBox);
                         }
                     }
                 }
@@ -195,6 +197,9 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                 textBoxList.get(i).getCaret().setVisible(false);
                 if(!"".equals(textBoxList.get(i).getText()))textBoxList.get(i).setBorder(null);
             }
+            for(int j = 0; j<pictureBoxes.size(); j++){
+                if(pictureBoxes.get(j).getIsUsed())pictureBoxes.get(j).setBorder(null);
+            }
         }
     }
 
@@ -212,9 +217,6 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
          
     }
 
-    public void insertPictureBox() {
-        pictureBoxes.get(pictureBoxes.size() - 1).drawSelf(this);
-    }
 
     public PictureBox getPictureBox(int x, int y){
         int topx, topy, width, height;
@@ -302,4 +304,5 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
     public void setInsertStatus(int insertStatus) {
         this.insertStatus = insertStatus;
     }
+
 }

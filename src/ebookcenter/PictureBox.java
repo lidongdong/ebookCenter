@@ -6,16 +6,20 @@ package ebookcenter;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * 本类为图片框类
@@ -28,7 +32,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     private File pictureFile;
     private int layer;
     private boolean isUsed;
-    private Image image;
+    //private Image image;
     private int orgx, orgy, endx, endy;
     private boolean isTopLeft;
     private boolean isTop;
@@ -44,12 +48,16 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     private final static int MIN_HEIGHT = 20;
 
     public PictureBox() {
+        //用于初始化绘图过程框
         layer = 2;
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        setHorizontalAlignment(JLabel.CENTER);
         isUsed = false;
     }
 
     public PictureBox(Rectangle rect) {
-        //this.rect = rect;
+        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        setHorizontalAlignment(JLabel.CENTER);
         this.setBounds(rect);
         layer = 2;
         isUsed = false;
@@ -71,7 +79,9 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (e.getClickCount() == 1) {
+            setBorder(BorderFactory.createLineBorder(Color.black));
+        }
     }
 
     @Override
@@ -82,28 +92,26 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(pictureFile!=null)draw();
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-       // setCursor(new Cursor(Cursor.MOVE_CURSOR));
+        // setCursor(new Cursor(Cursor.MOVE_CURSOR));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-       // setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        // setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-
-   
 
     @Override
     public void mouseMoved(MouseEvent e) {
-       
-       int x = e.getX();
+
+        int x = e.getX();
         int y = e.getY();
         int width = getBounds().width;
-        int height =getBounds().height;
+        int height = getBounds().height;
         int cursorType = Cursor.DEFAULT_CURSOR;
         isTopLeft = isTop = isTopRight = isRight = isBottomRight = isBottom = isBottomLeft = isLeft = move = false;
         if (x > 0 && y > 0 && x < width && y < height) {
@@ -135,17 +143,17 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             } else if (x >= width - RESIZE_WIDTH) {
                 isRight = true;
                 cursorType = Cursor.E_RESIZE_CURSOR;
-            }else if (x > RESIZE_WIDTH && x < width - RESIZE_WIDTH && y > RESIZE_WIDTH && y < width - RESIZE_WIDTH) {
-                    move = true;
-                    cursorType = Cursor.MOVE_CURSOR;
-                }
+            } else if (x > RESIZE_WIDTH && x < width - RESIZE_WIDTH && y > RESIZE_WIDTH && y < width - RESIZE_WIDTH) {
+                move = true;
+                cursorType = Cursor.MOVE_CURSOR;
+            }
         }
         setCursor(new Cursor(cursorType));
     }
-    
-     @Override
+
+    @Override
     public void mouseDragged(MouseEvent e) {
-       int x = e.getX();
+        int x = e.getX();
         int y = e.getY();
         int width = getBounds().width;
         int height = getBounds().height;
@@ -154,67 +162,74 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         int nextY = getBounds().y;
         int nextWidth = width;
         int nextHeight = height;
-            if (isTopLeft || isLeft || isBottomLeft) {
-                nextX += x;
-                nextWidth -= x;
-            }
-            if (isTopLeft || isTop || isTopRight) {
-                nextY += y;
-                nextHeight -= y;
-            }
-            if (isTopRight || isRight || isBottomRight) {
-                nextWidth = x;
-            }
-            if (isBottomLeft || isBottom || isBottomRight) {
-                nextHeight = y;
-            }
-            if (nextWidth <= MIN_WIDTH) {
-                nextWidth = MIN_WIDTH;
-                if (isTopLeft || isLeft || isBottomLeft) {
-                    nextX = getBounds().x + width - nextWidth;
-                }
-            }
-            if (nextHeight <= MIN_HEIGHT) {
-                nextHeight = MIN_HEIGHT;
-                if (isTopLeft || isTop || isTopRight) {
-                    nextY = getBounds().y + height - nextHeight;
-                }
-            }
-            if(move){
-                nextX = nextX + (x - orgx);
-                nextY = nextY + (y - orgy);
-            }
+        if (isTopLeft || isLeft || isBottomLeft) {
+            nextX += x;
+            nextWidth -= x;
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-    }
-
-    /*public void move(int orgx, int orgy, int endx, int endy) {
-        if (rect.x + endx - orgx >= 0 && rect.y + endy - orgx >= 0) {
-            this.setRect(rect.x + endx - orgx, rect.y + endy - orgx, rect.width, rect.height);
-            this.setBounds(rect);
+            draw();
         }
-        updateUI();
-        //this.setLocation(rect.x+endx-orgx, rect.y+endy-orgx);
-    }*/
+        if (isTopLeft || isTop || isTopRight) {
+            nextY += y;
+            nextHeight -= y;
+            this.setBounds(nextX, nextY, nextWidth, nextHeight);
+            draw();
+        }
+        if (isTopRight || isRight || isBottomRight) {
+            nextWidth = x;
+            this.setBounds(nextX, nextY, nextWidth, nextHeight);
+            draw();
+        }
+        if (isBottomLeft || isBottom || isBottomRight) {
+            nextHeight = y;
+            this.setBounds(nextX, nextY, nextWidth, nextHeight);
+            draw();
+        }
+        if (nextWidth <= MIN_WIDTH) {
+            nextWidth = MIN_WIDTH;
+            if (isTopLeft || isLeft || isBottomLeft) {
+                nextX = getBounds().x + width - nextWidth;
+                this.setBounds(nextX, nextY, nextWidth, nextHeight);
+                draw();
+            }
+        }
+        if (nextHeight <= MIN_HEIGHT) {
+            nextHeight = MIN_HEIGHT;
+            if (isTopLeft || isTop || isTopRight) {
+                nextY = getBounds().y + height - nextHeight;
+                this.setBounds(nextX, nextY, nextWidth, nextHeight);
+                draw();
+            }
+        }
+        if (move) {
+            nextX = nextX + (x - orgx);
+            nextY = nextY + (y - orgy);
+            this.setBounds(nextX, nextY, nextWidth, nextHeight);
+        }
+        //this.setBounds(nextX, nextY, nextWidth, nextHeight);
 
-    public void drawSelf(Page page) {
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
-        page.add(this);
     }
 
-    /*public void setRect(int x, int y, int width, int height) {
-        this.rect.x = x;
-        this.rect.y = y;
-        this.rect.width = width;
-        this.rect.height = height;
+    public void draw() {
+        //画图函数
+        ImageIcon imgIcon = new ImageIcon(pictureFile.getAbsolutePath());
+        int width = imgIcon.getIconWidth();
+        int height = imgIcon.getIconHeight();
+        int i = this.getBounds().width * height / width;
+        int j = this.getBounds().height * width / height;
+        if (i >= this.getBounds().height) {
+            imgIcon.setImage(imgIcon.getImage().getScaledInstance(j, this.getBounds().height, Image.SCALE_SMOOTH));
+        } else {
+            imgIcon.setImage(imgIcon.getImage().getScaledInstance(this.getBounds().width, i, Image.SCALE_SMOOTH));
+        }
+        this.setIcon(imgIcon);
     }
 
-    public Rectangle getRect() {
-        return rect;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
+        //removeAll();
+        // draw(g);
     }
-
-    public void setRect(Rectangle rect) {
-        this.rect = rect;
-    }*/
 
     public File getFile() {
         return pictureFile;
@@ -232,7 +247,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         this.layer = layer;
     }
 
-    public boolean isIsUsed() {
+    public boolean getIsUsed() {
         return isUsed;
     }
 

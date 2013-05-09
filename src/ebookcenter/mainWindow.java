@@ -100,6 +100,7 @@ public class mainWindow extends javax.swing.JFrame {
         makeWindow mw = new makeWindow();
         this.setVisible(false);
         mw.setVisible(true);
+        mw.requestFocus();
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
