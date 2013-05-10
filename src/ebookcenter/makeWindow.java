@@ -9,8 +9,10 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
@@ -150,8 +152,25 @@ public class makeWindow extends javax.swing.JFrame {
         selectFonts = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         fontSize = new javax.swing.JComboBox();
+        boldButton = new javax.swing.JButton();
+        italicButton = new javax.swing.JButton();
+        underLineButton = new javax.swing.JButton();
+        leftAlignmentButton = new javax.swing.JButton();
+        midAlignmentButton = new javax.swing.JButton();
+        rightAlignmentButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -162,7 +181,10 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -226,26 +248,161 @@ public class makeWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        boldButton.setFont(new java.awt.Font("宋体", 1, 14)); // NOI18N
+        boldButton.setText("T");
+        boldButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        boldButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        boldButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        boldButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        boldButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                boldButtonMouseClicked(evt);
+            }
+        });
 
-        jButton3.setText("jButton3");
+        italicButton.setFont(new java.awt.Font("宋体", 2, 14)); // NOI18N
+        italicButton.setText("T");
+        italicButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        italicButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        italicButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        italicButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        italicButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                italicButtonMouseClicked(evt);
+            }
+        });
+
+        underLineButton.setFont(new java.awt.Font("宋体", 0, 14)); // NOI18N
+        underLineButton.setText("下划");
+        underLineButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        underLineButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        underLineButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        underLineButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        underLineButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                underLineButtonMouseClicked(evt);
+            }
+        });
+
+        leftAlignmentButton.setText("左");
+        leftAlignmentButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        leftAlignmentButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        leftAlignmentButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        leftAlignmentButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        leftAlignmentButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                leftAlignmentButtonMouseClicked(evt);
+            }
+        });
+
+        midAlignmentButton.setText("中");
+        midAlignmentButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        midAlignmentButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        midAlignmentButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        midAlignmentButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        midAlignmentButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                midAlignmentButtonMouseClicked(evt);
+            }
+        });
+
+        rightAlignmentButton.setText("右");
+        rightAlignmentButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        rightAlignmentButton.setMaximumSize(new java.awt.Dimension(81, 23));
+        rightAlignmentButton.setMinimumSize(new java.awt.Dimension(81, 23));
+        rightAlignmentButton.setPreferredSize(new java.awt.Dimension(81, 23));
+        rightAlignmentButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rightAlignmentButtonMouseClicked(evt);
+            }
+        });
+
+        jLabel3.setText("对齐方式：");
+
+        jLabel4.setText("jLabel4");
+
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("上：");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("下：");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("左：");
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("右：");
+
+        jLabel9.setText("行距：");
+
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField5KeyPressed(evt);
+            }
+        });
+
+        jButton2.setText("jButton2");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout textSettingLayout = new javax.swing.GroupLayout(textSetting);
         textSetting.setLayout(textSettingLayout);
         textSettingLayout.setHorizontalGroup(
             textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(textSettingLayout.createSequentialGroup()
-                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(selectFonts, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(textSettingLayout.createSequentialGroup()
-                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(fontSize, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, 0)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(selectFonts, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(textSettingLayout.createSequentialGroup()
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(textSettingLayout.createSequentialGroup()
+                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(textSettingLayout.createSequentialGroup()
+                                .addComponent(fontSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(38, 38, 38))
+                            .addGroup(textSettingLayout.createSequentialGroup()
+                                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(boldButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(leftAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                .addGap(2, 2, 2)
+                                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(italicButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(midAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(2, 2, 2)))
+                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(underLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rightAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(textSettingLayout.createSequentialGroup()
+                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(textSettingLayout.createSequentialGroup()
+                                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField4)))
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         textSettingLayout.setVerticalGroup(
             textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +414,44 @@ public class makeWindow extends javax.swing.JFrame {
                 .addComponent(fontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(220, Short.MAX_VALUE))
+                    .addComponent(boldButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(italicButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(underLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rightAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(leftAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(midAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(textSettingLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("文本", textSetting);
@@ -268,11 +460,11 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 95, Short.MAX_VALUE)
+            .addGap(0, 115, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addGap(0, 393, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel9);
@@ -283,7 +475,7 @@ public class makeWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,7 +492,7 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 289, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +507,7 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 289, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,7 +538,15 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("新建页面");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem5);
+
+        jMenuItem8.setText("删除页面");
+        jMenu1.add(jMenuItem8);
 
         jMenuItem7.setText("打开项目");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -355,6 +555,17 @@ public class makeWindow extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem7);
+
+        jMenuItem9.setText("保存项目");
+        jMenu1.add(jMenuItem9);
+
+        jMenuItem10.setText("另存为...");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem10);
 
         jMenuBar1.add(jMenu1);
 
@@ -495,6 +706,104 @@ public class makeWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_selectFontsItemStateChanged
 
+    private void boldButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boldButtonMouseClicked
+        // TODO add your handling code here:
+        //粗体操作
+        if(currentJtp == null){ 
+        }else{
+            TextBox.setBold(currentJtp);
+        }
+    }//GEN-LAST:event_boldButtonMouseClicked
+
+    private void italicButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_italicButtonMouseClicked
+        // TODO add your handling code here:
+        //斜体操作
+         if(currentJtp == null){ 
+        }else{
+            TextBox.setItalic(currentJtp);
+        }
+    }//GEN-LAST:event_italicButtonMouseClicked
+
+    private void underLineButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_underLineButtonMouseClicked
+        // TODO add your handling code here:
+        //下划线操作
+         if(currentJtp == null){ 
+        }else{
+            TextBox.setUnderLine(currentJtp);
+        }
+    }//GEN-LAST:event_underLineButtonMouseClicked
+
+    private void leftAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_leftAlignmentButtonMouseClicked
+        // TODO add your handling code here:
+        //左对齐操作
+         if(currentJtp == null){ 
+        }else{
+            TextBox.setLeftAlignment(currentJtp);
+        }
+    }//GEN-LAST:event_leftAlignmentButtonMouseClicked
+
+    private void midAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_midAlignmentButtonMouseClicked
+        // TODO add your handling code here:
+        //居中对齐操作
+         if(currentJtp == null){ 
+        }else{
+            TextBox.setMidAlignment(currentJtp);
+        }
+    }//GEN-LAST:event_midAlignmentButtonMouseClicked
+
+    private void rightAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rightAlignmentButtonMouseClicked
+        // TODO add your handling code here:
+        //右对齐操作
+         if(currentJtp == null){ 
+        }else{
+            TextBox.setRightAlignment(currentJtp);
+        }
+    }//GEN-LAST:event_rightAlignmentButtonMouseClicked
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        // TODO add your handling code here:
+        //上留白
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String value = jTextField1.getText();
+            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
+                if(currentJtp!=null) TextBox.setSpaceAbove(currentJtp, Float.valueOf(value));
+            }else{
+                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
+
+    private void jTextField5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyPressed
+        // TODO add your handling code here:
+        //行距
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String value = jTextField5.getText();
+            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
+                if(currentJtp!=null)TextBox.setLineSpacing(currentJtp, Float.valueOf(value));
+            }else{
+                JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTextField5KeyPressed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        TextBox.insetIcon(currentJtp);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        //新建页面
+         String str = evt.getActionCommand();
+        if (str.equals("新建页面")) {
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        //另存为
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -524,24 +833,35 @@ public class makeWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton boldButton;
     private javax.swing.JComboBox fontSize;
+    private javax.swing.JButton italicButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -551,8 +871,17 @@ public class makeWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JButton leftAlignmentButton;
+    private javax.swing.JButton midAlignmentButton;
+    private javax.swing.JButton rightAlignmentButton;
     private javax.swing.JComboBox selectFonts;
     private javax.swing.JPanel textSetting;
+    private javax.swing.JButton underLineButton;
     // End of variables declaration//GEN-END:variables
 }

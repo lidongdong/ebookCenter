@@ -4,9 +4,6 @@
  */
 package ebookcenter;
 
-import java.awt.Toolkit;
-import javax.swing.ButtonModel;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -249,6 +246,11 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                     297, 420);
                             project.setName(this.projectName.getText().toString());
                             this.parent.setCurrentProject(project);
+                            this.parent.getCurrentProject().setCurrentPage(0);
+                            this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                            this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
+                            this.parent.getPageArea().setScrollSize(297, 420);//设置滚动条
+                            this.parent.getPageArea().updateUI();
                             flag = true;
                         } else {
                             if (this.jRadioButton3.isSelected()) {
@@ -267,6 +269,11 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                                 Integer.parseInt(this.pageHeight.getText().toString()));
                                         project.setName(this.projectName.getText().toString());
                                         this.parent.setCurrentProject(project);
+                                        this.parent.getCurrentProject().setCurrentPage(0);
+                                        this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                                        this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
+                                        this.parent.getPageArea().setScrollSize(Integer.parseInt(this.pageWidth.getText().toString()),Integer.parseInt(this.pageHeight.getText().toString()));//设置滚动条
+                                        this.parent.getPageArea().updateUI();
                                         flag = true;
                                     }
                                 }
