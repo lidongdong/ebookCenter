@@ -4,7 +4,6 @@
  */
 package ebookcenter;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -12,19 +11,11 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 /**
@@ -104,13 +95,16 @@ public class PrePictureMover extends JFrame implements MouseListener, MouseMotio
                 PictureBoxList pbl;
                 pbl = mkWindow.getCurrentProject().getPage(mkWindow.getCurrentProject().getCurrentPage()).getPictureBoxes();
                 SwingUtilities.convertPointToScreen(point, this);
+                if(pbl.findBox(point)!=null){
                 pbl.findBox(point).setFile(prePicture.getFile());
                 pbl.findBox(point).setIsUsed(true);
                 pbl.findBox(point).draw();
-                this.dispose();
-                mkWindow.requestFocus();
+                }
+
             }
         }
+        this.dispose();
+        mkWindow.requestFocus();
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 

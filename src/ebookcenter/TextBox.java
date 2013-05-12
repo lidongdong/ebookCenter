@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -33,6 +35,7 @@ import javax.swing.text.StyledEditorKit;
 public class TextBox extends JTextPane implements MouseListener, MouseMotionListener {
 
     String text;
+    private boolean isSelected;
     private int orgx, orgy, endx, endy;
     private boolean isEditing;
     private boolean isTopLeft;
@@ -50,27 +53,46 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
 
     public TextBox(Rectangle rect) {
         setBounds(rect);
+        this.setLayout(null);
+        setBackground(Color.black);
+        setOpaque(false);
         this.setEditable(false);
         this.isEditing = false;
-        this.setOpaque(false);//透明度100
-        this.setLayout(null);
+        this.isSelected = true;
+        requestFocus();
+
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    if (isSelected == true) {
+                        delTextBox();
+                    }
+                }
+            }
+        });
     }
 
-    public static void insetIcon(JTextPane text){
-   text.insertIcon(new ImageIcon("C:\\myTool\\11.jpg"));
-    }
-    
     public void addToPage(Page page) {
         setBorder(BorderFactory.createLineBorder(Color.black));
         page.add(this);
+    }
+
+    public void delTextBox() {
+        Page page = (Page) this.getParent();
+        page.getTextBoxList().remove(this);
+        page.remove(this);
+        page.updateUI();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 1) {
             setBorder(BorderFactory.createLineBorder(Color.black));
+            this.isSelected = true;
+            requestFocus();
         }
         if (e.getClickCount() == 2) {
             setBorder(BorderFactory.createLineBorder(Color.black));
@@ -208,28 +230,28 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         StyleConstants.setFontFamily(attr, family);
         setCharacterAttributes(editor, attr, false);
     }
-    
+
     public static void setLeftIndent(JEditorPane editor, float indent) {
         //左空白
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setLeftIndent(attr, indent);
         setParagraphAttributes(editor, attr, false);
     }
-    
+
     public static void setRightIndent(JEditorPane editor, float indent) {
         //右空白
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setRightIndent(attr, indent);
         setParagraphAttributes(editor, attr, false);
     }
-    
+
     public static void setSpaceAbove(JEditorPane editor, float indent) {
         //上空白
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setSpaceAbove(attr, indent);
         setParagraphAttributes(editor, attr, false);
     }
-    
+
     public static void setSpaceBelow(JEditorPane editor, float indent) {
         //下空白
         MutableAttributeSet attr = new SimpleAttributeSet();
@@ -280,7 +302,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         //中对齐
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setAlignment(attr, 1);
-        setParagraphAttributes(editor, attr,false);
+        setParagraphAttributes(editor, attr, false);
     }
 
     public static void setRightAlignment(JEditorPane editor) {
@@ -296,12 +318,12 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         StyleConstants.setLineSpacing(attr, space);
         setParagraphAttributes(editor, attr, true);
     }
-    
+
     public static void setFontColor(JEditorPane editor, Color fg) {
         //字体颜色
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setForeground(attr, fg);
-        setCharacterAttributes(editor, attr, true);
+        setCharacterAttributes(editor, attr, false);
     }
 
     public static void setFontSize(JEditorPane editor, int size) {
@@ -310,7 +332,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
             if ((size > 0) && (size < 512)) {
                 MutableAttributeSet attr = new SimpleAttributeSet();
                 StyleConstants.setFontSize(attr, size);
-                setCharacterAttributes(editor, attr, true);
+                setCharacterAttributes(editor, attr, false);
             } else {
                 UIManager.getLookAndFeel().provideErrorFeedback(editor);
             }
@@ -356,26 +378,26 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         }
         throw new IllegalArgumentException("EditorKit must be StyledEditorKit");
     }
-    
-        /* 
-      * 判断是否为整数  
-      * @param str 传入的字符串  
-      * @return 是整数返回true,否则返回false  
-    */  
-      public static boolean isInteger(String str) {    
-        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");    
-        return pattern.matcher(str).matches();    
-      }  
-      
-          /*  
-      * 判断是否为浮点数，包括double和float  
-      * @param str 传入的字符串  
-      * @return 是浮点数返回true,否则返回false  
-    */    
-      public static boolean isDouble(String str) {    
-        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");    
-        return pattern.matcher(str).matches();    
-      }  
+
+    /* 
+     * 判断是否为整数  
+     * @param str 传入的字符串  
+     * @return 是整数返回true,否则返回false  
+     */
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
+
+    /*  
+     * 判断是否为浮点数，包括double和float  
+     * @param str 传入的字符串  
+     * @return 是浮点数返回true,否则返回false  
+     */
+    public static boolean isDouble(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
+    }
 
     public boolean isIsEditing() {
         return isEditing;
@@ -383,5 +405,13 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
 
     public void setIsEditing(boolean isEditing) {
         this.isEditing = isEditing;
+    }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 }

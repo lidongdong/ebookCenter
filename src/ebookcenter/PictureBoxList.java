@@ -29,6 +29,10 @@ public class PictureBoxList {
     public int size() {
         return boxList.size();
     }
+    
+    public boolean remove(PictureBox pb){
+        return boxList.remove(pb);
+    }
 
     public void add(PictureBox pictureBox) {
         boxList.add(pictureBox);

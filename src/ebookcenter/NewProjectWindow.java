@@ -213,7 +213,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
         if (this.projectName.getText().toString().length() == 0) {
             JOptionPane.showMessageDialog(null, "用户名不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (this.newPageNumber.getText().toString().length() == 0) {
+            if (this.newPageNumber.getText().toString().length() == 0 || this.newPageNumber.getText().equals("0")) {
                 //新建空项目
                 Project project = new Project();
                 project.setName(this.projectName.getText().toString());
@@ -221,6 +221,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 flag = true;
             } else {
                 if (this.newPageNumber.getText().toString().matches("[0-9]*")) {
+                    if(Integer.valueOf(this.newPageNumber.getText())!=0){
                     if (this.jRadioButton1.isSelected()) {
                         this.pageHeight.setEditable(false);
                         this.pageWidth.setEditable(false);
@@ -280,6 +281,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
                             }
                         }
                     }
+                }
                 } else {
                     JOptionPane.showMessageDialog(null, "新增页数必须为整数!!!", "警告", JOptionPane.WARNING_MESSAGE);
                 }

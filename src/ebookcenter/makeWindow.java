@@ -5,12 +5,14 @@
 package ebookcenter;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -26,7 +28,17 @@ public class makeWindow extends javax.swing.JFrame {
     private PageArea pageArea;
     private JTextPane currentJtp;
     private PictureContainer pictureContainer;
+    private BackgroundContainer backgroundContainer;
 
+    public BackgroundContainer getBackgroundContainer() {
+        return backgroundContainer;
+    }
+
+    public void setBackgroundContainer(BackgroundContainer backgroundContainer) {
+        this.backgroundContainer = backgroundContainer;
+    }
+    
+    
     /**
      * Get the value of pageArea
      *
@@ -95,10 +107,11 @@ public class makeWindow extends javax.swing.JFrame {
      */
     public makeWindow() {
         initComponents();
-
+       
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); //制作窗口初始最大化
         currentProject = null;
         pictureContainer = new PictureContainer(jPanel1);//图片预览区滚动条
+        backgroundContainer = new BackgroundContainer();
         JScrollPane pictureJsp = new JScrollPane(pictureContainer,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -106,9 +119,17 @@ public class makeWindow extends javax.swing.JFrame {
         pageArea = new PageArea(jPanel5);//页面编辑区滚动条
         JScrollPane pageJsp = new JScrollPane(pageArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+               JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        pageJsp.setOpaque(false);
+        pageJsp.getViewport().setOpaque(false);
+        pageArea.setOpaque(false);
         jPanel5.add(pageJsp, BorderLayout.CENTER);
+        JScrollPane backgroundJsp = new JScrollPane(backgroundContainer,//背景选择滚动条
+               JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jPanel6.add(backgroundJsp, BorderLayout.CENTER);
 
+        
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();//字体载入
         Font[] fonts = ge.getAllFonts();
         for (int i = 0; i < fonts.length; i++) {
@@ -233,6 +254,10 @@ public class makeWindow extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(140, 422));
+
+        textSetting.setPreferredSize(new java.awt.Dimension(140, 393));
+
         selectFonts.setPreferredSize(new java.awt.Dimension(95, 21));
         selectFonts.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -319,7 +344,7 @@ public class makeWindow extends javax.swing.JFrame {
 
         jLabel3.setText("对齐方式：");
 
-        jLabel4.setText("jLabel4");
+        jLabel4.setText("留白：");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("上：");
@@ -339,6 +364,24 @@ public class makeWindow extends javax.swing.JFrame {
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("右：");
 
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+        });
+
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+        });
+
+        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField4KeyPressed(evt);
+            }
+        });
+
         jLabel9.setText("行距：");
 
         jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -347,7 +390,8 @@ public class makeWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        jButton2.setText("颜色");
+        jButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
@@ -365,28 +409,27 @@ public class makeWindow extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(textSettingLayout.createSequentialGroup()
                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, textSettingLayout.createSequentialGroup()
+                        .addComponent(fontSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(textSettingLayout.createSequentialGroup()
-                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(textSettingLayout.createSequentialGroup()
-                                .addComponent(fontSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(38, 38, 38))
+                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(textSettingLayout.createSequentialGroup()
                                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(boldButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(leftAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                    .addComponent(leftAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(2, 2, 2)
                                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(italicButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(midAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(2, 2, 2)))
-                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(underLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rightAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(textSettingLayout.createSequentialGroup()
-                        .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(2, 2, 2)
+                                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(underLineButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rightAlignmentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(textSettingLayout.createSequentialGroup()
                                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
@@ -399,8 +442,7 @@ public class makeWindow extends javax.swing.JFrame {
                                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField4)))
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -411,7 +453,9 @@ public class makeWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(selectFonts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fontSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(textSettingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boldButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -449,9 +493,7 @@ public class makeWindow extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("文本", textSetting);
@@ -479,7 +521,7 @@ public class makeWindow extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -502,18 +544,7 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 347, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
+        jPanel6.setLayout(new java.awt.BorderLayout());
         jPanel2.add(jPanel6, java.awt.BorderLayout.PAGE_END);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -786,16 +817,19 @@ public class makeWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField5KeyPressed
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-        TextBox.insetIcon(currentJtp);
-    }//GEN-LAST:event_jButton2MouseClicked
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
         //新建页面
          String str = evt.getActionCommand();
         if (str.equals("新建页面")) {
+            if(currentProject!=null){
+            NewPageWindow newPageWindow = new NewPageWindow(this);
+            newPageWindow.setVisible(true);
+            newPageWindow.setAlwaysOnTop(true);
+            this.setEnabled(false);
+            }else{
+                JOptionPane.showMessageDialog(null, "当前无项目，请先新建项目！", "警告", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -803,6 +837,57 @@ public class makeWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         //另存为
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        //字体颜色
+        if(currentJtp == null){         
+        }else{
+        Color fontColor = JColorChooser.showDialog(rootPane, "请选择字体颜色", currentJtp.getForeground());
+        if(fontColor != null){
+            TextBox.setFontColor(currentJtp, fontColor);
+        }
+        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        // TODO add your handling code here:
+        //下留白
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String value = jTextField2.getText();
+            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
+                if(currentJtp!=null) TextBox.setSpaceBelow(currentJtp, Float.valueOf(value));
+            }else{
+                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+        // TODO add your handling code here:
+        //左留白
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String value = jTextField3.getText();
+            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
+                if(currentJtp!=null) TextBox.setLeftIndent(currentJtp, Float.valueOf(value));
+            }else{
+                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void jTextField4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyPressed
+        // TODO add your handling code here:
+        //右留白
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            String value = jTextField4.getText();
+            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
+                if(currentJtp!=null) TextBox.setRightIndent(currentJtp, Float.valueOf(value));
+            }else{
+                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jTextField4KeyPressed
 
     /**
      * @param args the command line arguments

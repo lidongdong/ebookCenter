@@ -8,7 +8,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 /**
  *
@@ -18,7 +20,7 @@ public class PageArea extends JPanel{
 
     public PageArea(JPanel jPanel) {
         this.setLayout(null);
-        //this.setSize(jPanel.getSize());
+        setOpaque(false);
         jPanel.add(this);
     }
     

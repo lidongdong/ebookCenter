@@ -30,8 +30,6 @@ public class Project {
         pages = new ArrayList<Page>();
         for (int i = 0; i < pNumber; i++) {
             Page temp = new Page(pageWidth, pageHeight);
-            //System.out.print(temp.getWidth());
-            //System.out.print(temp.getHeight());
             pages.add(temp);
         }
         this.setPageWidth((int)(pageWidth*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));

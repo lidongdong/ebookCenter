@@ -9,6 +9,9 @@ import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -32,7 +35,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     private File pictureFile;
     private int layer;
     private boolean isUsed;
-    //private Image image;
+    private boolean isSelected;
     private int orgx, orgy, endx, endy;
     private boolean isTopLeft;
     private boolean isTop;
@@ -53,6 +56,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         setHorizontalAlignment(JLabel.CENTER);
         isUsed = false;
+        isSelected = false;
     }
 
     public PictureBox(Rectangle rect) {
@@ -61,9 +65,20 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         this.setBounds(rect);
         layer = 2;
         isUsed = false;
-
+        isSelected = true;
+        this.requestFocus();
         this.addMouseListener(this);
-
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    if (isSelected == true) {
+                        delPictureBox();
+  
+                    }
+                }
+            }
+        });
         this.addMouseMotionListener(this);
     }
 
@@ -81,6 +96,8 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 1) {
             setBorder(BorderFactory.createLineBorder(Color.black));
+            isSelected = true;
+            this.requestFocus();
         }
     }
 
@@ -92,7 +109,9 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(pictureFile!=null)draw();
+        if (pictureFile != null) {
+            draw();
+        }
     }
 
     @Override
@@ -224,11 +243,26 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         this.setIcon(imgIcon);
     }
 
+    public void delPictureBox() {
+        Page page = (Page) this.getParent();
+        page.getPictureBoxes().remove(this);
+        page.remove(this);
+        page.updateUI();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
         //removeAll();
         // draw(g);
+    }
+
+    public boolean isIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
     }
 
     public File getFile() {

@@ -18,8 +18,13 @@ public class TextBoxList {
         textBoxList = new ArrayList<TextBox>();
     }
     
+    
     public int size(){
         return textBoxList.size();
+    }
+    
+    public boolean remove(TextBox tb){
+        return textBoxList.remove(tb);
     }
     
     public TextBox get(int index){
@@ -30,6 +35,7 @@ public class TextBoxList {
         textBoxList.add(textBox);
     }
 
+    
     public List<TextBox> getTextBoxList() {
         return textBoxList;
     }
