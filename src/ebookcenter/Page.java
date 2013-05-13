@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,7 +60,6 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         this.setSize((int) (width * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4),
                 (int) (height * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
         this.setBackground(Color.white);
-        //pictureBoxes.setParentPage(this);
         pictureBoxes = new PictureBoxList();
         pictureBoxes.setParentPage(this);
         textBoxList = new TextBoxList();
@@ -67,9 +67,8 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         backgroundLabel = new JLabel();//背景标签
         this.backgroundLabel.setBounds(0, 0, (int) (width * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4),
                 (int) (height * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
-        this.backgroundLabel.setOpaque(true);
-        this.backgroundLabel.setBackground(Color.red);
-        //this.backgroundLabel.setFocusable(false);
+        this.backgroundLabel.setOpaque(false);
+        this.backgroundLabel.setFocusable(false);
         this.add(this.backgroundLabel);
 
         pb = new PictureBox();//过程框
@@ -129,6 +128,10 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         }
     }
 
+    public void setBackgroundSize(){
+        this.backgroundLabel.setSize(this.getSize());
+    }
+    
     @Override
     public void mouseReleased(MouseEvent e) {
         endx = e.getX();
@@ -183,27 +186,27 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                         if (endy < orgy) {
                             TextBox textBox = new TextBox(new Rectangle(endx, endy, orgx - endx, orgy - endy));
                             pb.setBounds(textBox.getBounds());
-                            textBoxList.add(textBox);                            
+                            textBoxList.add(textBox);
                             textBox.addToPage(this);
                             this.setComponentZOrder(textBox, 0);
                         } else {
                             TextBox textBox = new TextBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy));
                             pb.setBounds(textBox.getBounds());
-                            textBoxList.add(textBox);                            
+                            textBoxList.add(textBox);
                             textBox.addToPage(this);
-                             this.setComponentZOrder(textBox, 0);
+                            this.setComponentZOrder(textBox, 0);
                         }
                     } else {
                         if (endy < orgy) {
                             TextBox textBox = new TextBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy));
                             pb.setBounds(textBox.getBounds());
-                            textBoxList.add(textBox);                            
+                            textBoxList.add(textBox);
                             textBox.addToPage(this);
-                             this.setComponentZOrder(textBox, 0);
+                            this.setComponentZOrder(textBox, 0);
                         } else {
                             TextBox textBox = new TextBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy));
                             pb.setBounds(textBox.getBounds());
-                            textBoxList.add(textBox);                            
+                            textBoxList.add(textBox);
                             textBox.addToPage(this);
                             this.setComponentZOrder(textBox, 0);
                         }
@@ -283,14 +286,14 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         return null;
     }
 
-    public void setBackground(Graphics g) {//自定义设置背景
-        Image image = null;
-        try {
-            image = ImageIO.read(backgroundFile);
-        } catch (IOException ex) {
-            Logger.getLogger(Page.class.getName()).log(Level.SEVERE, null, ex);
+    public void setBackground() {//自定义设置背景
+        if (this.backgroundFile != null) {
+            ImageIcon imgIcon = new ImageIcon(this.backgroundFile.getAbsolutePath());
+            imgIcon.setImage(imgIcon.getImage().getScaledInstance(this.getBounds().width, this.getBounds().height, Image.SCALE_SMOOTH));
+            this.backgroundLabel.setIcon(imgIcon);
+        } else {
+            this.backgroundLabel.setIcon(null);
         }
-        g.drawImage(image.getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH), 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
     @Override

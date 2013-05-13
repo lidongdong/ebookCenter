@@ -55,18 +55,22 @@ public class Background extends JLabel implements MouseListener {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (e.getClickCount() == 2) {
                 //替换背景
-                if(getMakeWindow().getCurrentProject()!=null && getMakeWindow().getCurrentProject().getPages().size()>0){
+                if (getMakeWindow().getCurrentProject() != null && getMakeWindow().getCurrentProject().getPages().size() > 0) {
+                    System.out.print(getMakeWindow().getCurrentProject().getName());
+                    System.out.print(getMakeWindow().getCurrentProject().getCurrentPage());
                     getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).setBackgroundFile(this.backgroundFile);
-                    getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).updateUI();
+                    System.out.print(getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).getBackgroundFile().getAbsolutePath());
+                    getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).setBackground();
+                    //getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).updateUI();
                 }
             }
         }
     }
 
-    public makeWindow getMakeWindow(){
-        return (makeWindow)this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+    public makeWindow getMakeWindow() {
+        return (makeWindow) this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
     }
-    
+
     @Override
     public void mousePressed(MouseEvent e) {
     }

@@ -35,7 +35,7 @@ public class Project {
         this.setPageWidth((int)(pageWidth*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));
         this.setPageHeight((int)(pageHeight*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));
 
-        currentPage = 1;
+        currentPage = 0;
     }
 
     public void addPage(Page page) {

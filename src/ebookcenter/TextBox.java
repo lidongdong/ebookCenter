@@ -53,8 +53,6 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
 
     public TextBox(Rectangle rect) {
         setBounds(rect);
-        this.setLayout(null);
-        setBackground(Color.black);
         setOpaque(false);
         this.setEditable(false);
         this.isEditing = false;
@@ -75,6 +73,9 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         });
     }
 
+
+    
+    
     public void addToPage(Page page) {
         setBorder(BorderFactory.createLineBorder(Color.black));
         page.add(this);
@@ -316,7 +317,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
         //行间距
         MutableAttributeSet attr = new SimpleAttributeSet();
         StyleConstants.setLineSpacing(attr, space);
-        setParagraphAttributes(editor, attr, true);
+        setParagraphAttributes(editor, attr, false);
     }
 
     public static void setFontColor(JEditorPane editor, Color fg) {

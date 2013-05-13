@@ -115,6 +115,8 @@ public class makeWindow extends javax.swing.JFrame {
         JScrollPane pictureJsp = new JScrollPane(pictureContainer,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        pictureJsp.setOpaque(false);
+        pictureJsp.getViewport().setOpaque(false);
         jPanel1.add(pictureJsp, BorderLayout.CENTER);
         pageArea = new PageArea(jPanel5);//页面编辑区滚动条
         JScrollPane pageJsp = new JScrollPane(pageArea,
@@ -127,6 +129,8 @@ public class makeWindow extends javax.swing.JFrame {
         JScrollPane backgroundJsp = new JScrollPane(backgroundContainer,//背景选择滚动条
                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        backgroundJsp.setOpaque(false);
+        backgroundJsp.getViewport().setOpaque(false);
         jPanel6.add(backgroundJsp, BorderLayout.CENTER);
 
         
@@ -526,6 +530,7 @@ public class makeWindow extends javax.swing.JFrame {
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
 
+        jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -548,6 +553,7 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel2.add(jPanel6, java.awt.BorderLayout.PAGE_END);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setOpaque(false);
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setRollover(true);
@@ -652,7 +658,6 @@ public class makeWindow extends javax.swing.JFrame {
         dlg.addChoosableFileFilter(imageFilter);
         int returnVal = dlg.showDialog(null, null);
         File file[] = dlg.getSelectedFiles();
-
         pictureContainer.addPicture(file);
         pictureContainer.showPicture();
         pictureContainer.updateUI();
@@ -672,6 +677,7 @@ public class makeWindow extends javax.swing.JFrame {
             npw.setAlwaysOnTop(true);
             this.setEnabled(false);
             npw.setParent(this);
+            
         }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -822,6 +828,8 @@ public class makeWindow extends javax.swing.JFrame {
         //新建页面
          String str = evt.getActionCommand();
         if (str.equals("新建页面")) {
+                                    System.out.print(this.getCurrentProject().getName());
+                        System.out.print(this.getCurrentProject().getCurrentPage());
             if(currentProject!=null){
             NewPageWindow newPageWindow = new NewPageWindow(this);
             newPageWindow.setVisible(true);
@@ -831,6 +839,7 @@ public class makeWindow extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "当前无项目，请先新建项目！", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
+        System.out.print(this.currentProject.getCurrentPage());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
@@ -896,7 +905,7 @@ public class makeWindow extends javax.swing.JFrame {
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

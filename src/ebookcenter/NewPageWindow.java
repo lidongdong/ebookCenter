@@ -13,17 +13,19 @@ import javax.swing.JOptionPane;
  * @author think
  */
 public class NewPageWindow extends javax.swing.JFrame {
+
     private makeWindow parent;
+
     /**
      * Creates new form NewPageWindwo
      */
     public NewPageWindow(makeWindow mw) {
         initComponents();
         parent = mw;
-        if(parent.getCurrentProject().getPages().size() == 0){
+        if (parent.getCurrentProject().getPages().size() == 0) {
             newPageWidth.setEnabled(true);
             newPageHeight.setEnabled(true);
-        }else{
+        } else {
             newPageWidth.setEnabled(false);
             newPageHeight.setEnabled(false);
         }
@@ -148,7 +150,7 @@ public class NewPageWindow extends javax.swing.JFrame {
 
     private void jToggleButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jToggleButton2MouseClicked
         // TODO add your handling code here:
-         //取消按钮处理
+        //取消按钮处理
         this.dispose();
         this.getParent().setEnabled(true);
         this.getParent().requestFocus();
@@ -158,48 +160,56 @@ public class NewPageWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         //确认处理
         boolean flag = false;
-        if(TextBox.isInteger(newPageNumber.getText())){
+        if (TextBox.isInteger(newPageNumber.getText())) {
             int number = Integer.valueOf(newPageNumber.getText());
-            if(newPageWidth.isEnabled()){
-                if(TextBox.isInteger(newPageWidth.getText())&&TextBox.isInteger(newPageHeight.getText())){
-                    for(int i =0;i<number;i++){
-                        Page page = new Page(Integer.valueOf(newPageWidth.getText()),Integer.valueOf(newPageHeight.getText()));
+            if (number <= 0) {
+            } else {
+                parent.getCurrentProject().setCurrentPage(parent.getCurrentProject().getPages().size());
+                if (newPageWidth.isEnabled()) {
+                    if (TextBox.isInteger(newPageWidth.getText()) && TextBox.isInteger(newPageHeight.getText())) {
+
+                        for (int i = 0; i < number; i++) {
+                            Page page = new Page(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
+                            parent.getCurrentProject().getPages().add(page);
+                            if (i == 0) {
+
+                                page.selectBounds(parent.getPageArea());
+                                parent.getPageArea().removeAll();
+                                parent.getPageArea().add(page);
+                                parent.getPageArea().setScrollSize(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
+                                flag = true;
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "页面的高和宽请输入整数!", "警告", JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    for (int i = 0; i < number; i++) {
+                        Page page = new Page(0, 0);
+                        page.setSize(parent.getCurrentProject().getPageWidth(), parent.getCurrentProject().getPageHeight());
+                        page.setBackgroundSize();
                         parent.getCurrentProject().getPages().add(page);
-                        if(i == 0){
-                        parent.getCurrentProject().setCurrentPage(parent.getCurrentProject().getPages().indexOf(page));
-                        page.selectBounds(parent.getPageArea());
-                        parent.getPageArea().removeAll();
-                        parent.getPageArea().add(page);
-                        parent.getPageArea().setScrollSize(Integer.valueOf(newPageWidth.getText()),Integer.valueOf(newPageHeight.getText()));
-                        flag = true;                       
-                    }
-                    }
-                }else{
-                     JOptionPane.showMessageDialog(null, "页面的高和宽请输入整数!", "警告", JOptionPane.WARNING_MESSAGE);
-                }
-            }else{
-                for(int i = 0;i<number;i++){
-                    Page page = new Page(0,0);
-                    page.setSize(parent.getCurrentProject().getPageWidth(), parent.getCurrentProject().getPageHeight());
-                    parent.getCurrentProject().getPages().add(page);
-                    if(i == 0){
-                        parent.getCurrentProject().setCurrentPage(parent.getCurrentProject().getPages().indexOf(page));
-                        page.selectBounds(parent.getPageArea());
-                        parent.getPageArea().removeAll();
-                        parent.getPageArea().add(page);
-                        parent.getPageArea().setPreferredSize(new Dimension(parent.getCurrentProject().getPageWidth()+40, parent.getCurrentProject().getPageHeight()+40));
-                        flag = true;                       
+                        if (i == 0) {
+                            // parent.getCurrentProject().setCurrentPage(parent.getCurrentProject().getPages().indexOf(page));
+                            page.selectBounds(parent.getPageArea());
+                            parent.getPageArea().removeAll();
+                            parent.getPageArea().add(page);
+                            parent.getPageArea().setPreferredSize(new Dimension(parent.getCurrentProject().getPageWidth() + 40, parent.getCurrentProject().getPageHeight() + 40));
+                            flag = true;
+                        }
                     }
                 }
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "请输入正确的页面数!", "警告", JOptionPane.WARNING_MESSAGE);
         }
-        if(flag == true){
+        if (flag == true) {
             this.dispose();
             this.getParent().setEnabled(true);
             this.getParent().requestFocus();
             this.getParent().getPageArea().updateUI();
+             this.getParent().setAlwaysOnTop(flag);
+            this.getParent().setAlwaysOnTop(false);
         }
     }//GEN-LAST:event_jToggleButton1MouseClicked
 
@@ -208,36 +218,35 @@ public class NewPageWindow extends javax.swing.JFrame {
      */
     //public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        /*try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+     */
+    /*try {
+     for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+     if ("Nimbus".equals(info.getName())) {
+     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+     break;
+     }
+     }
+     } catch (ClassNotFoundException ex) {
+     java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (InstantiationException ex) {
+     java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (IllegalAccessException ex) {
+     java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+     java.util.logging.Logger.getLogger(NewPageWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     }
+     //</editor-fold>
 
-        /* Create and display the form */
-        /*java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewPageWindow().setVisible(true);
-            }
-        });
-    }*/
-
+     /* Create and display the form */
+    /*java.awt.EventQueue.invokeLater(new Runnable() {
+     public void run() {
+     new NewPageWindow().setVisible(true);
+     }
+     });
+     }*/
     public makeWindow getParent() {
         return parent;
     }
@@ -245,7 +254,6 @@ public class NewPageWindow extends javax.swing.JFrame {
     public void setParent(makeWindow parent) {
         this.parent = parent;
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

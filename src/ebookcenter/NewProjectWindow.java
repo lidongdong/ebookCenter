@@ -103,6 +103,7 @@ public class NewProjectWindow extends javax.swing.JFrame {
             }
         });
 
+        projectName.setFont(new java.awt.Font("宋体", 0, 18)); // NOI18N
         projectName.setPreferredSize(new java.awt.Dimension(72, 25));
 
         newPageNumber.setPreferredSize(new java.awt.Dimension(72, 25));
@@ -237,7 +238,6 @@ public class NewProjectWindow extends javax.swing.JFrame {
                         this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
                         this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
                         this.parent.getPageArea().updateUI();
-
                         flag = true;
                     } else {
                         if (this.jRadioButton2.isSelected()) {
@@ -289,9 +289,11 @@ public class NewProjectWindow extends javax.swing.JFrame {
         }
         if (flag == true) {
             this.dispose();
-            this.getParent().setEnabled(true);
-            this.getParent().requestFocus();
+            this.getParent().setEnabled(true);            
             this.getParent().getPageArea().repaint();
+            this.getParent().requestFocus();
+            this.getParent().setAlwaysOnTop(flag);
+            this.getParent().setAlwaysOnTop(false);
         }
 
         /*System.out.print(parent.getCurrentProject().getName());
