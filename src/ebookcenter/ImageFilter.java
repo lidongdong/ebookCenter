@@ -25,7 +25,7 @@ public class ImageFilter extends FileFilter{
     @Override
     public String getDescription() {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return "图像文件";
+        return "图像文件(*.png,*.PNG,*.jpg)";
     }
     
 }

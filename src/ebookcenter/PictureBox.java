@@ -11,15 +11,10 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -225,7 +220,9 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
         }
         //this.setBounds(nextX, nextY, nextWidth, nextHeight);
-
+        ((Page)this.getParent()).getUndoQueue().push( 
+                new Rectangle(nextX, nextY, nextWidth, nextHeight), Constant.TYPE_PICTURE_BOX, 
+                ((Page)this.getParent()).getPictureBoxes().indexOf(this));
     }
 
     public void draw() {

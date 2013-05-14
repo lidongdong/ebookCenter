@@ -29,7 +29,9 @@ public class makeWindow extends javax.swing.JFrame {
     private JTextPane currentJtp;
     private PictureContainer pictureContainer;
     private BackgroundContainer backgroundContainer;
-
+    public UndoQueue undoQueue;
+    
+    
     public BackgroundContainer getBackgroundContainer() {
         return backgroundContainer;
     }
@@ -37,8 +39,7 @@ public class makeWindow extends javax.swing.JFrame {
     public void setBackgroundContainer(BackgroundContainer backgroundContainer) {
         this.backgroundContainer = backgroundContainer;
     }
-    
-    
+
     /**
      * Get the value of pageArea
      *
@@ -107,7 +108,12 @@ public class makeWindow extends javax.swing.JFrame {
      */
     public makeWindow() {
         initComponents();
-       
+        init();
+
+
+    }
+
+    public void init() {
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH); //制作窗口初始最大化
         currentProject = null;
         pictureContainer = new PictureContainer(jPanel1);//图片预览区滚动条
@@ -121,19 +127,19 @@ public class makeWindow extends javax.swing.JFrame {
         pageArea = new PageArea(jPanel5);//页面编辑区滚动条
         JScrollPane pageJsp = new JScrollPane(pageArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-               JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         pageJsp.setOpaque(false);
         pageJsp.getViewport().setOpaque(false);
         pageArea.setOpaque(false);
         jPanel5.add(pageJsp, BorderLayout.CENTER);
         JScrollPane backgroundJsp = new JScrollPane(backgroundContainer,//背景选择滚动条
-               JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         backgroundJsp.setOpaque(false);
         backgroundJsp.getViewport().setOpaque(false);
         jPanel6.add(backgroundJsp, BorderLayout.CENTER);
 
-        
+
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();//字体载入
         Font[] fonts = ge.getAllFonts();
         for (int i = 0; i < fonts.length; i++) {
@@ -155,7 +161,6 @@ public class makeWindow extends javax.swing.JFrame {
         fontSize.addItem("32");
         fontSize.addItem("48");
         fontSize.addItem("72");
-
     }
 
     /**
@@ -497,7 +502,7 @@ public class makeWindow extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("文本", textSetting);
@@ -510,7 +515,7 @@ public class makeWindow extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
+            .addGap(0, 390, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel9);
@@ -525,7 +530,7 @@ public class makeWindow extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_END);
@@ -549,6 +554,7 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel6.setPreferredSize(new java.awt.Dimension(120, 120));
         jPanel6.setLayout(new java.awt.BorderLayout());
         jPanel2.add(jPanel6, java.awt.BorderLayout.PAGE_END);
 
@@ -677,7 +683,7 @@ public class makeWindow extends javax.swing.JFrame {
             npw.setAlwaysOnTop(true);
             this.setEnabled(false);
             npw.setParent(this);
-            
+
         }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -722,8 +728,8 @@ public class makeWindow extends javax.swing.JFrame {
         if (evt.getSource() == fontSize) {
             if (currentJtp == null) {
             } else {
-                if(evt.getStateChange() == ItemEvent.SELECTED){
-                     TextBox.setFontSize(currentJtp, Integer.parseInt(fontSize.getSelectedItem().toString()));
+                if (evt.getStateChange() == ItemEvent.SELECTED) {
+                    TextBox.setFontSize(currentJtp, Integer.parseInt(fontSize.getSelectedItem().toString()));
                 }
             }
         }
@@ -733,11 +739,11 @@ public class makeWindow extends javax.swing.JFrame {
     private void selectFontsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_selectFontsItemStateChanged
         // TODO add your handling code here:
         //字体选择
-         if (evt.getSource() == selectFonts) {
+        if (evt.getSource() == selectFonts) {
             if (currentJtp == null) {
             } else {
-                if(evt.getStateChange() == ItemEvent.SELECTED){
-                     TextBox.chooseFont(currentJtp, selectFonts.getSelectedItem().toString());
+                if (evt.getStateChange() == ItemEvent.SELECTED) {
+                    TextBox.chooseFont(currentJtp, selectFonts.getSelectedItem().toString());
                 }
             }
         }
@@ -746,8 +752,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void boldButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boldButtonMouseClicked
         // TODO add your handling code here:
         //粗体操作
-        if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setBold(currentJtp);
         }
     }//GEN-LAST:event_boldButtonMouseClicked
@@ -755,8 +761,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void italicButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_italicButtonMouseClicked
         // TODO add your handling code here:
         //斜体操作
-         if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setItalic(currentJtp);
         }
     }//GEN-LAST:event_italicButtonMouseClicked
@@ -764,8 +770,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void underLineButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_underLineButtonMouseClicked
         // TODO add your handling code here:
         //下划线操作
-         if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setUnderLine(currentJtp);
         }
     }//GEN-LAST:event_underLineButtonMouseClicked
@@ -773,8 +779,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void leftAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_leftAlignmentButtonMouseClicked
         // TODO add your handling code here:
         //左对齐操作
-         if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setLeftAlignment(currentJtp);
         }
     }//GEN-LAST:event_leftAlignmentButtonMouseClicked
@@ -782,8 +788,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void midAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_midAlignmentButtonMouseClicked
         // TODO add your handling code here:
         //居中对齐操作
-         if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setMidAlignment(currentJtp);
         }
     }//GEN-LAST:event_midAlignmentButtonMouseClicked
@@ -791,8 +797,8 @@ public class makeWindow extends javax.swing.JFrame {
     private void rightAlignmentButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rightAlignmentButtonMouseClicked
         // TODO add your handling code here:
         //右对齐操作
-         if(currentJtp == null){ 
-        }else{
+        if (currentJtp == null) {
+        } else {
             TextBox.setRightAlignment(currentJtp);
         }
     }//GEN-LAST:event_rightAlignmentButtonMouseClicked
@@ -800,12 +806,14 @@ public class makeWindow extends javax.swing.JFrame {
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
         // TODO add your handling code here:
         //上留白
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String value = jTextField1.getText();
-            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
-                if(currentJtp!=null) TextBox.setSpaceAbove(currentJtp, Float.valueOf(value));
-            }else{
-                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            if (TextBox.isDouble(value) || TextBox.isInteger(value)) {
+                if (currentJtp != null) {
+                    TextBox.setSpaceAbove(currentJtp, Float.valueOf(value));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_jTextField1KeyPressed
@@ -813,11 +821,13 @@ public class makeWindow extends javax.swing.JFrame {
     private void jTextField5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyPressed
         // TODO add your handling code here:
         //行距
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String value = jTextField5.getText();
-            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
-                if(currentJtp!=null)TextBox.setLineSpacing(currentJtp, Float.valueOf(value));
-            }else{
+            if (TextBox.isDouble(value) || TextBox.isInteger(value)) {
+                if (currentJtp != null) {
+                    TextBox.setLineSpacing(currentJtp, Float.valueOf(value));
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -826,16 +836,16 @@ public class makeWindow extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
         //新建页面
-         String str = evt.getActionCommand();
+        String str = evt.getActionCommand();
         if (str.equals("新建页面")) {
-                                    System.out.print(this.getCurrentProject().getName());
-                        System.out.print(this.getCurrentProject().getCurrentPage());
-            if(currentProject!=null){
-            NewPageWindow newPageWindow = new NewPageWindow(this);
-            newPageWindow.setVisible(true);
-            newPageWindow.setAlwaysOnTop(true);
-            this.setEnabled(false);
-            }else{
+            System.out.print(this.getCurrentProject().getName());
+            System.out.print(this.getCurrentProject().getCurrentPage());
+            if (currentProject != null) {
+                NewPageWindow newPageWindow = new NewPageWindow(this);
+                newPageWindow.setVisible(true);
+                newPageWindow.setAlwaysOnTop(true);
+                this.setEnabled(false);
+            } else {
                 JOptionPane.showMessageDialog(null, "当前无项目，请先新建项目！", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -850,24 +860,26 @@ public class makeWindow extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         //字体颜色
-        if(currentJtp == null){         
-        }else{
-        Color fontColor = JColorChooser.showDialog(rootPane, "请选择字体颜色", currentJtp.getForeground());
-        if(fontColor != null){
-            TextBox.setFontColor(currentJtp, fontColor);
-        }
+        if (currentJtp == null) {
+        } else {
+            Color fontColor = JColorChooser.showDialog(rootPane, "请选择字体颜色", currentJtp.getForeground());
+            if (fontColor != null) {
+                TextBox.setFontColor(currentJtp, fontColor);
+            }
         }
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
         // TODO add your handling code here:
         //下留白
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String value = jTextField2.getText();
-            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
-                if(currentJtp!=null) TextBox.setSpaceBelow(currentJtp, Float.valueOf(value));
-            }else{
-                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            if (TextBox.isDouble(value) || TextBox.isInteger(value)) {
+                if (currentJtp != null) {
+                    TextBox.setSpaceBelow(currentJtp, Float.valueOf(value));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_jTextField2KeyPressed
@@ -875,12 +887,14 @@ public class makeWindow extends javax.swing.JFrame {
     private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
         // TODO add your handling code here:
         //左留白
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String value = jTextField3.getText();
-            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
-                if(currentJtp!=null) TextBox.setLeftIndent(currentJtp, Float.valueOf(value));
-            }else{
-                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            if (TextBox.isDouble(value) || TextBox.isInteger(value)) {
+                if (currentJtp != null) {
+                    TextBox.setLeftIndent(currentJtp, Float.valueOf(value));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_jTextField3KeyPressed
@@ -888,12 +902,14 @@ public class makeWindow extends javax.swing.JFrame {
     private void jTextField4KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyPressed
         // TODO add your handling code here:
         //右留白
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String value = jTextField4.getText();
-            if(TextBox.isDouble(value)||TextBox.isInteger(value)){
-                if(currentJtp!=null) TextBox.setRightIndent(currentJtp, Float.valueOf(value));
-            }else{
-                 JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
+            if (TextBox.isDouble(value) || TextBox.isInteger(value)) {
+                if (currentJtp != null) {
+                    TextBox.setRightIndent(currentJtp, Float.valueOf(value));
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "请输入数字!!!", "警告", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_jTextField4KeyPressed

@@ -30,6 +30,10 @@ public class PictureBoxList {
         return boxList.size();
     }
     
+    public int indexOf(PictureBox pictureBox){
+        return boxList.indexOf(pictureBox);
+    }
+    
     public boolean remove(PictureBox pb){
         return boxList.remove(pb);
     }

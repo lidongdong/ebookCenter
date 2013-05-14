@@ -35,7 +35,9 @@ public class TextBoxList {
         textBoxList.add(textBox);
     }
 
-    
+    public int indexOf(TextBox textBox){
+        return textBoxList.indexOf(textBox);
+    }
     public List<TextBox> getTextBoxList() {
         return textBoxList;
     }
