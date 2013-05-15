@@ -948,15 +948,13 @@ public class makeWindow extends javax.swing.JFrame {
         //undo操作
         if(this.currentProject!=null||this.currentProject.getCurrentPage()>=0){
             Page temp = this.currentProject.getPage(this.currentProject.getCurrentPage());
-            int i = temp.getUndoQueue().undo();
-            if(i>=0){
-                //System.out.print(temp.getUndoQueue().getFlag());
-                OperationStruct os = temp.getUndoQueue().get(i);
-                if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
-                    temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getStation());
+            OperationStruct os = temp.getUndoQueue().undo();
+            if(os!=null){
+                if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
+                    temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getStart());
                     temp.updateUI();
-                }else if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
-                    temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getStation());
+                }else if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
+                    temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getStart());
                     temp.updateUI();
                 }
             }
@@ -966,6 +964,19 @@ public class makeWindow extends javax.swing.JFrame {
     private void redoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redoButtonMouseClicked
         // TODO add your handling code here:
         //redo操作
+         if(this.currentProject!=null||this.currentProject.getCurrentPage()>=0){
+            Page temp = this.currentProject.getPage(this.currentProject.getCurrentPage());
+            OperationStruct os = temp.getUndoQueue().redo();
+            if(os!=null){
+                if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
+                    temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getEnd());
+                    temp.updateUI();
+                }else if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
+                    temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getEnd());
+                    temp.updateUI();
+                }
+            }
+        } 
     }//GEN-LAST:event_redoButtonMouseClicked
 
     /**

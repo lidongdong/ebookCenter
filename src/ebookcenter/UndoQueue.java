@@ -31,21 +31,33 @@ public class UndoQueue {
         for (int i = flag + 1; i < queue.size(); i++) {
             queue.remove(i);
         }
-        queue.add(new OperationStruct(station, boxType, boxId));
+        queue.add(new OperationStruct(start, boxType, boxId));
         flag = queue.size() - 1;
+    }
+    
+    public void append(Rectangle end){
+        queue.get(flag).append(end);
     }
 
     public OperationStruct get(int index) {
         return this.queue.get(index);
     }
 
-    public int undo() {
-       
+    public OperationStruct undo() {
+       if(flag>=0){
+           return queue.get(flag--);
+       }else{
+           return null;
+       }
     }
 
     
-    public boolean ahead() {
-      
+    public OperationStruct redo() {
+      if(flag < queue.size()-1){
+          return queue.get(++flag);
+      }else{
+          return null;
+      }
     }
 
     public int getFlag() {

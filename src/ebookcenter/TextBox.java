@@ -6,7 +6,6 @@ package ebookcenter;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
@@ -111,13 +109,14 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
     public void mousePressed(MouseEvent e) {
         orgx = e.getX();
         orgy = e.getY();
+        ((Page)this.getParent()).getUndoQueue().push(this.getBounds(),
+                Constant.TYPE_TEXT_BOX, 
+                ((Page)this.getParent()).getTextBoxList().indexOf(this));
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        ((Page)this.getParent()).getUndoQueue().push(
-                this.getBounds(), Constant.TYPE_TEXT_BOX, 
-                ((Page)this.getParent()).getTextBoxList().indexOf(this));
+        ((Page)this.getParent()).getUndoQueue().append(this.getBounds());
     }
 
     @Override

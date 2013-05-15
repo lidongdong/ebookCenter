@@ -140,44 +140,32 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                     if (endx < orgx) {
                         if (endy < orgy) {
                             PictureBox pictureBox = new PictureBox(new Rectangle(endx, endy, orgx - endx, orgy - endy));
-                            this.undoQueue.push( 
-                                    new Rectangle(endx, endy, orgx - endx, orgy - endy), 
-                                    Constant.TYPE_PICTURE_BOX, pictureBoxes.size());
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
-                            pictureBoxes.impact(pictureBoxes.getBoxList());
+                            //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy));
-                            this.undoQueue.push(
-                                    new Rectangle(endx, orgy, orgx - endx, endy - orgy), 
-                                    Constant.TYPE_PICTURE_BOX, pictureBoxes.size());
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
-                            pictureBoxes.impact(pictureBoxes.getBoxList());
+                            //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
                         }
                     } else {
                         if (endy < orgy) {
                             PictureBox pictureBox = new PictureBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy));
-                            this.undoQueue.push( 
-                                    new Rectangle(orgx, endy, endx - orgx, orgy - endy), 
-                                    Constant.TYPE_PICTURE_BOX, pictureBoxes.size());
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
-                            pictureBoxes.impact(pictureBoxes.getBoxList());
+                            //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy));
-                            this.undoQueue.push( 
-                                    new Rectangle(orgx, orgy, endx - orgx, endy - orgy), 
-                                    Constant.TYPE_PICTURE_BOX, pictureBoxes.size());
                             pb.setBounds(pictureBox.getBounds());
                             pictureBoxes.add(pictureBox);
-                            pictureBoxes.impact(pictureBoxes.getBoxList());
+                            //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
                         }
@@ -189,18 +177,12 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                     if (endx < orgx) {
                         if (endy < orgy) {
                             TextBox textBox = new TextBox(new Rectangle(endx, endy, orgx - endx, orgy - endy));
-                            this.undoQueue.push( 
-                                    new Rectangle(endx, endy, orgx - endx, orgy - endy), 
-                                    Constant.TYPE_TEXT_BOX, textBoxList.size());
                             pb.setBounds(textBox.getBounds());
                             textBoxList.add(textBox);
                             textBox.addToPage(this);
                             this.setComponentZOrder(textBox, 0);
                         } else {
                             TextBox textBox = new TextBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy));
-                            this.undoQueue.push(
-                                    new Rectangle(endx, orgy, orgx - endx, endy - orgy), 
-                                    Constant.TYPE_TEXT_BOX, textBoxList.size());
                             pb.setBounds(textBox.getBounds());
                             textBoxList.add(textBox);
                             textBox.addToPage(this);
@@ -209,18 +191,12 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                     } else {
                         if (endy < orgy) {
                             TextBox textBox = new TextBox(new Rectangle(orgx, endy, endx - orgx, orgy - endy));
-                            this.undoQueue.push(
-                                    new Rectangle(orgx, endy, endx - orgx, orgy - endy), 
-                                    Constant.TYPE_TEXT_BOX, textBoxList.size());
                             pb.setBounds(textBox.getBounds());
                             textBoxList.add(textBox);
                             textBox.addToPage(this);
                             this.setComponentZOrder(textBox, 0);
                         } else {
                             TextBox textBox = new TextBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy));
-                             this.undoQueue.push(
-                                    new Rectangle(orgx, orgy, endx - orgx, endy - orgy), 
-                                    Constant.TYPE_TEXT_BOX, textBoxList.size());
                             pb.setBounds(textBox.getBounds());
                             textBoxList.add(textBox);
                             textBox.addToPage(this);
@@ -268,6 +244,10 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
     }
 
+    public static void newImpact(){
+        
+    }
+    
     public PictureBox getPictureBox(int x, int y) {
         int topx, topy, width, height;
         int flag = 0;

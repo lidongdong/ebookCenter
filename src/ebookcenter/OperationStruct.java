@@ -17,12 +17,15 @@ public class OperationStruct {
     private int boxType;
     private int boxId;
 
-    public OperationStruct(Rectangle start, Rectangle end, int boxType, int boxId) {
+    public OperationStruct(Rectangle start, int boxType, int boxId) {
         this.start = start;
-        this.end = end;
         this.boxType = boxType;
         this.boxId = boxId;
     }  
+    
+    public void append(Rectangle end){
+        this.end = end;
+    }
 
     public Rectangle getStart() {
         return start;
