@@ -107,6 +107,11 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         if (pictureFile != null) {
             draw();
         }
+         ((Page)this.getParent()).getUndoQueue().push( 
+                this.getBounds(), Constant.TYPE_PICTURE_BOX, 
+                ((Page)this.getParent()).getPictureBoxes().indexOf(this));
+         //System.out.print(this.getBounds()+"\n");
+         //System.out.print(((Page)this.getParent()).getUndoQueue().get(((Page)this.getParent()).getUndoQueue().getFlag()).getStation()+"\n");
     }
 
     @Override
@@ -180,30 +185,30 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             nextX += x;
             nextWidth -= x;
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-            draw();
+            if (pictureFile != null)draw();
         }
         if (isTopLeft || isTop || isTopRight) {
             nextY += y;
             nextHeight -= y;
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-            draw();
+            if (pictureFile != null)draw();
         }
         if (isTopRight || isRight || isBottomRight) {
             nextWidth = x;
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-            draw();
+            if (pictureFile != null)draw();
         }
         if (isBottomLeft || isBottom || isBottomRight) {
             nextHeight = y;
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-            draw();
+           if (pictureFile != null) draw();
         }
         if (nextWidth <= MIN_WIDTH) {
             nextWidth = MIN_WIDTH;
             if (isTopLeft || isLeft || isBottomLeft) {
                 nextX = getBounds().x + width - nextWidth;
                 this.setBounds(nextX, nextY, nextWidth, nextHeight);
-                draw();
+                if (pictureFile != null)draw();
             }
         }
         if (nextHeight <= MIN_HEIGHT) {
@@ -211,7 +216,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             if (isTopLeft || isTop || isTopRight) {
                 nextY = getBounds().y + height - nextHeight;
                 this.setBounds(nextX, nextY, nextWidth, nextHeight);
-                draw();
+                if (pictureFile != null)draw();
             }
         }
         if (move) {
@@ -220,9 +225,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
         }
         //this.setBounds(nextX, nextY, nextWidth, nextHeight);
-        ((Page)this.getParent()).getUndoQueue().push( 
-                new Rectangle(nextX, nextY, nextWidth, nextHeight), Constant.TYPE_PICTURE_BOX, 
-                ((Page)this.getParent()).getPictureBoxes().indexOf(this));
+       
     }
 
     public void draw() {

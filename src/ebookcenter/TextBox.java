@@ -115,6 +115,9 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        ((Page)this.getParent()).getUndoQueue().push(
+                this.getBounds(), Constant.TYPE_TEXT_BOX, 
+                ((Page)this.getParent()).getTextBoxList().indexOf(this));
     }
 
     @Override
@@ -143,8 +146,6 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
             if (isTopLeft || isLeft || isBottomLeft) {
                 nextX += x;
                 nextWidth -= x;
-                
-                
             }
             if (isTopLeft || isTop || isTopRight) {
                 nextY += y;
@@ -173,9 +174,7 @@ public class TextBox extends JTextPane implements MouseListener, MouseMotionList
                 nextY = nextY + (y - orgy);
             }
             this.setBounds(nextX, nextY, nextWidth, nextHeight);
-            ((Page)this.getParent()).getUndoQueue().push(
-                new Rectangle(nextX, nextY, nextWidth, nextHeight), Constant.TYPE_TEXT_BOX, 
-                ((Page)this.getParent()).getTextBoxList().indexOf(this));
+            
         }
     }
 

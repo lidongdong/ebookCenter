@@ -27,7 +27,7 @@ public class UndoQueue {
         flag = -1;
     }
 
-    public void push(Rectangle station, int boxType, int boxId) {
+    public void push(Rectangle start, int boxType, int boxId) {
         for (int i = flag + 1; i < queue.size(); i++) {
             queue.remove(i);
         }
@@ -35,21 +35,32 @@ public class UndoQueue {
         flag = queue.size() - 1;
     }
 
-    public OperationStruct undo() {
-        if (flag > 0) {
-            flag--;
-            return queue.get(flag);
-        } else {
-            return null;
-        }
+    public OperationStruct get(int index) {
+        return this.queue.get(index);
     }
 
-    public OperationStruct ahead() {
-        if (flag < queue.size() - 1) {
-            flag++;
-            return queue.get(flag);
-        } else {
-            return null;
-        }
+    public int undo() {
+       
+    }
+
+    
+    public boolean ahead() {
+      
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
+
+    public List<OperationStruct> getQueue() {
+        return queue;
+    }
+
+    public void setQueue(List<OperationStruct> queue) {
+        this.queue = queue;
     }
 }

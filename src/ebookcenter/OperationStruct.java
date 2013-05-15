@@ -4,7 +4,6 @@
  */
 package ebookcenter;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 
 /**
@@ -13,34 +12,33 @@ import java.awt.Rectangle;
  */
 public class OperationStruct {
 
-    private int operationType;
-    private Rectangle station;
+    private Rectangle start;
+    private Rectangle end;
     private int boxType;
     private int boxId;
 
-    public OperationStruct(Rectangle station, int boxType, int boxId) {
-        this.station = station;
+    public OperationStruct(Rectangle start, Rectangle end, int boxType, int boxId) {
+        this.start = start;
+        this.end = end;
         this.boxType = boxType;
         this.boxId = boxId;
+    }  
+
+    public Rectangle getStart() {
+        return start;
     }
 
-    public int getOperationType() {
-        return operationType;
+    public void setStart(Rectangle start) {
+        this.start = start;
     }
 
-    public void setOperationType(int operationType) {
-        this.operationType = operationType;
+    public Rectangle getEnd() {
+        return end;
     }
 
-    public Rectangle getStation() {
-        return station;
-    }
-
-    public void setStation(Rectangle station) {
-        this.station = station;
-    }
-
-   
+    public void setEnd(Rectangle end) {
+        this.end = end;
+    } 
 
     public int getBoxType() {
         return boxType;

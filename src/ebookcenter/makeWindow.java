@@ -12,6 +12,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -139,7 +140,8 @@ public class makeWindow extends javax.swing.JFrame {
         backgroundJsp.getViewport().setOpaque(false);
         jPanel6.add(backgroundJsp, BorderLayout.CENTER);
 
-
+        
+        
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();//字体载入
         Font[] fonts = ge.getAllFonts();
         for (int i = 0; i < fonts.length; i++) {
@@ -207,6 +209,8 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
+        undoButton = new javax.swing.JButton();
+        redoButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -563,7 +567,32 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel5.setLayout(new java.awt.BorderLayout());
 
         jToolBar1.setRollover(true);
-        jToolBar1.setPreferredSize(new java.awt.Dimension(289, 25));
+        jToolBar1.setPreferredSize(new java.awt.Dimension(289, 32));
+
+        undoButton.setText("撤销");
+        undoButton.setFocusable(false);
+        undoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        undoButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        undoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        undoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                undoButtonMouseClicked(evt);
+            }
+        });
+        jToolBar1.add(undoButton);
+
+        redoButton.setText("回退");
+        redoButton.setFocusable(false);
+        redoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        redoButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        redoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        redoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                redoButtonMouseClicked(evt);
+            }
+        });
+        jToolBar1.add(redoButton);
+
         jPanel5.add(jToolBar1, java.awt.BorderLayout.NORTH);
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.CENTER);
@@ -914,6 +943,31 @@ public class makeWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTextField4KeyPressed
 
+    private void undoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_undoButtonMouseClicked
+        // TODO add your handling code here:
+        //undo操作
+        if(this.currentProject!=null||this.currentProject.getCurrentPage()>=0){
+            Page temp = this.currentProject.getPage(this.currentProject.getCurrentPage());
+            int i = temp.getUndoQueue().undo();
+            if(i>=0){
+                //System.out.print(temp.getUndoQueue().getFlag());
+                OperationStruct os = temp.getUndoQueue().get(i);
+                if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
+                    temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getStation());
+                    temp.updateUI();
+                }else if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
+                    temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getStation());
+                    temp.updateUI();
+                }
+            }
+        } 
+    }//GEN-LAST:event_undoButtonMouseClicked
+
+    private void redoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redoButtonMouseClicked
+        // TODO add your handling code here:
+        //redo操作
+    }//GEN-LAST:event_redoButtonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -989,9 +1043,11 @@ public class makeWindow extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JButton leftAlignmentButton;
     private javax.swing.JButton midAlignmentButton;
+    private javax.swing.JButton redoButton;
     private javax.swing.JButton rightAlignmentButton;
     private javax.swing.JComboBox selectFonts;
     private javax.swing.JPanel textSetting;
     private javax.swing.JButton underLineButton;
+    private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
 }
