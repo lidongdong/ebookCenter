@@ -5,6 +5,7 @@
 package ebookcenter;
 
 import java.awt.Toolkit;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author think
  */
-public class Project {
+public class Project implements Serializable{
 
     private String name;
     private List<Page> pages;

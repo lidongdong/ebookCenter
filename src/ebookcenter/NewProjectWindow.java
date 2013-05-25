@@ -222,66 +222,67 @@ public class NewProjectWindow extends javax.swing.JFrame {
                 flag = true;
             } else {
                 if (this.newPageNumber.getText().toString().matches("[0-9]*")) {
-                    if(Integer.valueOf(this.newPageNumber.getText())!=0){
-                    if (this.jRadioButton1.isSelected()) {
-                        this.pageHeight.setEditable(false);
-                        this.pageWidth.setEditable(false);
-                        //System.out.print("第一项");//A4纸
-                        Project project = new Project(this.projectName.getText().toString(),
-                                Integer.parseInt(this.newPageNumber.getText().toString()),
-                                210,
-                                297);
-                        project.setName(this.projectName.getText().toString());
-                        this.parent.setCurrentProject(project);
-                        this.parent.getCurrentProject().setCurrentPage(0);
-                        this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
-                        this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                        this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
-                        this.parent.getPageArea().updateUI();
-                        flag = true;
-                    } else {
-                        if (this.jRadioButton2.isSelected()) {
-                            //System.out.print("第二项");//A3纸
+                    if (Integer.valueOf(this.newPageNumber.getText()) != 0) {
+                        if (this.jRadioButton1.isSelected()) {
+                            this.pageHeight.setEditable(false);
+                            this.pageWidth.setEditable(false);
+                            //System.out.print("第一项");//A4纸
                             Project project = new Project(this.projectName.getText().toString(),
                                     Integer.parseInt(this.newPageNumber.getText().toString()),
-                                    297, 420);
+                                    210,
+                                    297);
                             project.setName(this.projectName.getText().toString());
                             this.parent.setCurrentProject(project);
                             this.parent.getCurrentProject().setCurrentPage(0);
                             this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                             this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                            this.parent.getPageArea().setScrollSize(297, 420);//设置滚动条
+                            this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
                             this.parent.getPageArea().updateUI();
+
                             flag = true;
                         } else {
-                            if (this.jRadioButton3.isSelected()) {
-                                // System.out.print("第三项");//自定义
-                                if (this.pageWidth.getText().toString().length() == 0
-                                        || this.pageHeight.getText().toString().length() == 0
-                                        || Integer.parseInt(this.pageHeight.getText().toString()) == 0
-                                        || Integer.parseInt(this.pageWidth.getText().toString()) == 0) {
-                                    JOptionPane.showMessageDialog(null, "自定义页面的宽和高不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
-                                } else {
-                                    if (this.pageWidth.getText().toString().matches("[0-9]*") && this.pageHeight.getText().toString().matches("[0-9]*")) {
-                                        //建立自定义大小的页面
-                                        Project project = new Project(this.projectName.getText().toString(),
-                                                Integer.parseInt(this.newPageNumber.getText().toString()),
-                                                Integer.parseInt(this.pageWidth.getText().toString()),
-                                                Integer.parseInt(this.pageHeight.getText().toString()));
-                                        project.setName(this.projectName.getText().toString());
-                                        this.parent.setCurrentProject(project);
-                                        this.parent.getCurrentProject().setCurrentPage(0);
-                                        this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
-                                        this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                                        this.parent.getPageArea().setScrollSize(Integer.parseInt(this.pageWidth.getText().toString()),Integer.parseInt(this.pageHeight.getText().toString()));//设置滚动条
-                                        this.parent.getPageArea().updateUI();
-                                        flag = true;
+                            if (this.jRadioButton2.isSelected()) {
+                                //System.out.print("第二项");//A3纸
+                                Project project = new Project(this.projectName.getText().toString(),
+                                        Integer.parseInt(this.newPageNumber.getText().toString()),
+                                        297, 420);
+                                project.setName(this.projectName.getText().toString());
+                                this.parent.setCurrentProject(project);
+                                this.parent.getCurrentProject().setCurrentPage(0);
+                                this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                                this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
+                                this.parent.getPageArea().setScrollSize(297, 420);//设置滚动条
+                                this.parent.getPageArea().updateUI();
+                                flag = true;
+                            } else {
+                                if (this.jRadioButton3.isSelected()) {
+                                    // System.out.print("第三项");//自定义
+                                    if (this.pageWidth.getText().toString().length() == 0
+                                            || this.pageHeight.getText().toString().length() == 0
+                                            || Integer.parseInt(this.pageHeight.getText().toString()) == 0
+                                            || Integer.parseInt(this.pageWidth.getText().toString()) == 0) {
+                                        JOptionPane.showMessageDialog(null, "自定义页面的宽和高不能为空!!!", "警告", JOptionPane.WARNING_MESSAGE);
+                                    } else {
+                                        if (this.pageWidth.getText().toString().matches("[0-9]*") && this.pageHeight.getText().toString().matches("[0-9]*")) {
+                                            //建立自定义大小的页面
+                                            Project project = new Project(this.projectName.getText().toString(),
+                                                    Integer.parseInt(this.newPageNumber.getText().toString()),
+                                                    Integer.parseInt(this.pageWidth.getText().toString()),
+                                                    Integer.parseInt(this.pageHeight.getText().toString()));
+                                            project.setName(this.projectName.getText().toString());
+                                            this.parent.setCurrentProject(project);
+                                            this.parent.getCurrentProject().setCurrentPage(0);
+                                            this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
+                                            this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
+                                            this.parent.getPageArea().setScrollSize(Integer.parseInt(this.pageWidth.getText().toString()), Integer.parseInt(this.pageHeight.getText().toString()));//设置滚动条
+                                            this.parent.getPageArea().updateUI();
+                                            flag = true;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
                 } else {
                     JOptionPane.showMessageDialog(null, "新增页数必须为整数!!!", "警告", JOptionPane.WARNING_MESSAGE);
                 }
@@ -289,7 +290,8 @@ public class NewProjectWindow extends javax.swing.JFrame {
         }
         if (flag == true) {
             this.dispose();
-            this.getParent().setEnabled(true);            
+            this.parent.getPageContainer().fresh();
+            this.getParent().setEnabled(true);
             this.getParent().getPageArea().repaint();
             this.getParent().requestFocus();
             this.getParent().setAlwaysOnTop(flag);

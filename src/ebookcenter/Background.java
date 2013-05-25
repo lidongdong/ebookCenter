@@ -56,11 +56,9 @@ public class Background extends JLabel implements MouseListener {
             if (e.getClickCount() == 2) {
                 //替换背景
                 if (getMakeWindow().getCurrentProject() != null && getMakeWindow().getCurrentProject().getPages().size() > 0) {
-                    System.out.print(getMakeWindow().getCurrentProject().getName());
-                    System.out.print(getMakeWindow().getCurrentProject().getCurrentPage());
                     getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).setBackgroundFile(this.backgroundFile);
-                    System.out.print(getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).getBackgroundFile().getAbsolutePath());
                     getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).setBackground();
+                    getMakeWindow().getPageContainer().fresh();
                     //getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).updateUI();
                 }
             }

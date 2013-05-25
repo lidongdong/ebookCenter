@@ -28,6 +28,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
 
     //private Rectangle rect;
     private File pictureFile;
+    private ImageIcon imageIcon;
     private int layer;
     private boolean isUsed;
     private boolean isSelected;
@@ -56,6 +57,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     
     public PictureBox(Rectangle rect) {
         this.setBorder(BorderFactory.createLineBorder(Color.black));
+        imageIcon = new ImageIcon();
         setHorizontalAlignment(JLabel.CENTER);
         this.setBounds(rect);
         layer = 2;
@@ -253,7 +255,9 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         } else {
             imgIcon.setImage(imgIcon.getImage().getScaledInstance(this.getBounds().width, i, Image.SCALE_SMOOTH));
         }
+        imageIcon = imgIcon;
         this.setIcon(imgIcon);
+        this.getMakeWindow().getPageContainer().fresh();
     }
     
     public void delPictureBox() {
@@ -261,6 +265,10 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
         page.getPictureBoxes().remove(this);
         page.remove(this);
         page.updateUI();
+    }
+    
+    public makeWindow getMakeWindow(){
+        return (makeWindow)this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
     }
     
     @Override
@@ -301,4 +309,14 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     public void setIsUsed(boolean isUsed) {
         this.isUsed = isUsed;
     }
+
+    public ImageIcon getImageIcon() {
+        return imageIcon;
+    }
+
+    public void setImageIcon(ImageIcon imageIcon) {
+        this.imageIcon = imageIcon;
+    }
+    
+    
 }

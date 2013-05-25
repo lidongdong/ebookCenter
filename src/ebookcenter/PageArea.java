@@ -29,6 +29,19 @@ public class PageArea extends JPanel{
         this.setPreferredSize(new Dimension((int)(width*Toolkit.getDefaultToolkit().getScreenResolution()/25.4)+40, 
                 (int)(height*Toolkit.getDefaultToolkit().getScreenResolution()/25.4)+40));
     }
+    
+    public makeWindow getMakeWindow(){
+        return (makeWindow)getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+    }
+    
+    public void refresh(){
+        this.removeAll();
+        if(getMakeWindow().getCurrentProject().getCurrentPage() >= 0){
+        getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()).selectBounds(this);
+        this.add(getMakeWindow().getCurrentProject().getPage(getMakeWindow().getCurrentProject().getCurrentPage()));
+        }
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.

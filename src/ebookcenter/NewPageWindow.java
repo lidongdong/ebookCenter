@@ -167,17 +167,20 @@ public class NewPageWindow extends javax.swing.JFrame {
                 parent.getCurrentProject().setCurrentPage(parent.getCurrentProject().getPages().size());
                 if (newPageWidth.isEnabled()) {
                     if (TextBox.isInteger(newPageWidth.getText()) && TextBox.isInteger(newPageHeight.getText())) {
-
-                        for (int i = 0; i < number; i++) {
-                            Page page = new Page(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
-                            parent.getCurrentProject().getPages().add(page);
-                            if (i == 0) {
-
-                                page.selectBounds(parent.getPageArea());
-                                parent.getPageArea().removeAll();
-                                parent.getPageArea().add(page);
-                                parent.getPageArea().setScrollSize(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
-                                flag = true;
+                        if ("".equals(newPageWidth.getText()) || "".equals(newPageHeight.getText())) {
+                            JOptionPane.showMessageDialog(null, "页面的高和宽请输入整数!", "警告", JOptionPane.WARNING_MESSAGE);
+                        } else {
+                            for (int i = 0; i < number; i++) {
+                                Page page = new Page(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
+                                parent.getCurrentProject().getPages().add(page);
+                                if (i == 0) {
+                                    System.out.print(parent.getCurrentProject().getPageWidth());
+                                    page.selectBounds(parent.getPageArea());
+                                    parent.getPageArea().removeAll();
+                                    parent.getPageArea().add(page);
+                                    parent.getPageArea().setScrollSize(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
+                                    flag = true;
+                                }
                             }
                         }
                     } else {
@@ -186,7 +189,8 @@ public class NewPageWindow extends javax.swing.JFrame {
                 } else {
                     for (int i = 0; i < number; i++) {
                         Page page = new Page(0, 0);
-                        page.setSize(parent.getCurrentProject().getPageWidth(), parent.getCurrentProject().getPageHeight());
+                        //page.setSize(parent.getCurrentProject().getPageWidth(), parent.getCurrentProject().getPageHeight());
+                        page.setSize(this.parent.getCurrentProject().getPage(0).getWidth(), this.parent.getCurrentProject().getPage(0).getHeight());
                         page.setBackgroundSize();
                         parent.getCurrentProject().getPages().add(page);
                         if (i == 0) {
@@ -205,10 +209,11 @@ public class NewPageWindow extends javax.swing.JFrame {
         }
         if (flag == true) {
             this.dispose();
+            this.getParent().getPageContainer().fresh();
             this.getParent().setEnabled(true);
             this.getParent().requestFocus();
             this.getParent().getPageArea().updateUI();
-             this.getParent().setAlwaysOnTop(flag);
+            this.getParent().setAlwaysOnTop(flag);
             this.getParent().setAlwaysOnTop(false);
         }
     }//GEN-LAST:event_jToggleButton1MouseClicked

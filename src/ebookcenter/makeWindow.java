@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
@@ -23,16 +25,24 @@ import javax.swing.JTextPane;
  *
  * @author think
  */
-public class makeWindow extends javax.swing.JFrame {
+public class makeWindow extends javax.swing.JFrame implements MouseListener{
 
     private Project currentProject;
     private PageArea pageArea;
     private JTextPane currentJtp;
     private PictureContainer pictureContainer;
     private BackgroundContainer backgroundContainer;
+    private PageContainer pageContainer;
     public UndoQueue undoQueue;
-    
-    
+
+    public PageContainer getPageContainer() {
+        return pageContainer;
+    }
+
+    public void setPageContainer(PageContainer pageContainer) {
+        this.pageContainer = pageContainer;
+    }
+
     public BackgroundContainer getBackgroundContainer() {
         return backgroundContainer;
     }
@@ -119,6 +129,7 @@ public class makeWindow extends javax.swing.JFrame {
         currentProject = null;
         pictureContainer = new PictureContainer(jPanel1);//图片预览区滚动条
         backgroundContainer = new BackgroundContainer();
+        pageContainer = new PageContainer();
         JScrollPane pictureJsp = new JScrollPane(pictureContainer,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -139,9 +150,13 @@ public class makeWindow extends javax.swing.JFrame {
         backgroundJsp.setOpaque(false);
         backgroundJsp.getViewport().setOpaque(false);
         jPanel6.add(backgroundJsp, BorderLayout.CENTER);
+        JScrollPane previewJsp = new JScrollPane(pageContainer,//页面预览滚动条
+                JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jPanel4.add(previewJsp, BorderLayout.CENTER);
+        previewJsp.setOpaque(false);
+        previewJsp.getViewport().setOpaque(false);
 
-        
-        
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();//字体载入
         Font[] fonts = ge.getAllFonts();
         for (int i = 0; i < fonts.length; i++) {
@@ -163,6 +178,8 @@ public class makeWindow extends javax.swing.JFrame {
         fontSize.addItem("32");
         fontSize.addItem("48");
         fontSize.addItem("72");
+        
+        this.addMouseListener(this);
     }
 
     /**
@@ -543,18 +560,8 @@ public class makeWindow extends javax.swing.JFrame {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 347, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
+        jPanel4.setPreferredSize(new java.awt.Dimension(120, 120));
+        jPanel4.setLayout(new java.awt.BorderLayout());
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -618,6 +625,11 @@ public class makeWindow extends javax.swing.JFrame {
         jMenu1.add(jMenuItem5);
 
         jMenuItem8.setText("删除页面");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem8);
 
         jMenuItem7.setText("打开项目");
@@ -703,7 +715,7 @@ public class makeWindow extends javax.swing.JFrame {
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
         /*
-         * 新建“项目菜单”
+         * 新建项目菜单
          */
         String str = evt.getActionCommand();
         if (str == "新建项目") {
@@ -712,7 +724,6 @@ public class makeWindow extends javax.swing.JFrame {
             npw.setAlwaysOnTop(true);
             this.setEnabled(false);
             npw.setParent(this);
-
         }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -867,8 +878,7 @@ public class makeWindow extends javax.swing.JFrame {
         //新建页面
         String str = evt.getActionCommand();
         if (str.equals("新建页面")) {
-            System.out.print(this.getCurrentProject().getName());
-            System.out.print(this.getCurrentProject().getCurrentPage());
+
             if (currentProject != null) {
                 NewPageWindow newPageWindow = new NewPageWindow(this);
                 newPageWindow.setVisible(true);
@@ -946,38 +956,56 @@ public class makeWindow extends javax.swing.JFrame {
     private void undoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_undoButtonMouseClicked
         // TODO add your handling code here:
         //undo操作
-        if(this.currentProject!=null||this.currentProject.getCurrentPage()>=0){
+        if (this.currentProject != null || this.currentProject.getCurrentPage() >= 0) {
             Page temp = this.currentProject.getPage(this.currentProject.getCurrentPage());
             OperationStruct os = temp.getUndoQueue().undo();
-            if(os!=null){
-                if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
+            if (os != null) {
+                if (os.getBoxType() == Constant.TYPE_PICTURE_BOX) {
                     temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getStart());
                     temp.updateUI();
-                }else if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
+                    this.pageContainer.fresh();
+                } else if (os.getBoxType() == Constant.TYPE_TEXT_BOX) {
                     temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getStart());
                     temp.updateUI();
                 }
             }
-        } 
+        }
     }//GEN-LAST:event_undoButtonMouseClicked
 
     private void redoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redoButtonMouseClicked
         // TODO add your handling code here:
         //redo操作
-         if(this.currentProject!=null||this.currentProject.getCurrentPage()>=0){
+        if (this.currentProject != null || this.currentProject.getCurrentPage() >= 0) {
             Page temp = this.currentProject.getPage(this.currentProject.getCurrentPage());
             OperationStruct os = temp.getUndoQueue().redo();
-            if(os!=null){
-                if(os.getBoxType() == Constant.TYPE_PICTURE_BOX){
+            if (os != null) {
+                if (os.getBoxType() == Constant.TYPE_PICTURE_BOX) {
                     temp.getPictureBoxes().get(os.getBoxId()).setBounds(os.getEnd());
                     temp.updateUI();
-                }else if(os.getBoxType() == Constant.TYPE_TEXT_BOX){
+                    this.pageContainer.fresh();
+                } else if (os.getBoxType() == Constant.TYPE_TEXT_BOX) {
                     temp.getTextBoxList().get(os.getBoxId()).setBounds(os.getEnd());
                     temp.updateUI();
                 }
             }
-        } 
+        }
     }//GEN-LAST:event_redoButtonMouseClicked
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:删除页面
+        if (this.currentProject != null) {
+            if (this.currentProject.getPages().size() > 0) {
+                DeletePageWindow dpw = new DeletePageWindow(this);
+                dpw.setVisible(true);
+                dpw.setAlwaysOnTop(true);
+                this.setEnabled(false);
+            }else{
+                JOptionPane.showMessageDialog(null, "当前页面可删除！", "警告", JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "当前无项目！", "警告", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1061,4 +1089,30 @@ public class makeWindow extends javax.swing.JFrame {
     private javax.swing.JButton underLineButton;
     private javax.swing.JButton undoButton;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1){
+            if(e.getClickCount() == 1){
+                this.requestFocus();
+               
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }

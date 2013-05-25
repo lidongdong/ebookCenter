@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 public class Page extends JPanel implements MouseListener, MouseMotionListener {
 
     private File backgroundFile;
+    private ImageIcon backIcon;
     private double zoom;//缩放比例
     private PictureBoxList pictureBoxes;
     private TextBoxList textBoxList;
@@ -53,7 +54,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         pictureBoxes = new PictureBoxList();
         pictureBoxes.setParentPage(this);
         textBoxList = new TextBoxList();
-
+        backIcon = new ImageIcon();
         undoQueue = new UndoQueue();//操作队列
         
         backgroundLabel = new JLabel();//背景标签
@@ -62,6 +63,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         this.backgroundLabel.setOpaque(false);
         this.backgroundLabel.setFocusable(false);
         this.add(this.backgroundLabel);
+
 
         pb = new PictureBox();//过程框
         pb.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -145,6 +147,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
+                            this.getMakeWindow().getPageContainer().fresh();
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(endx, orgy, orgx - endx, endy - orgy));
                             pb.setBounds(pictureBox.getBounds());
@@ -152,6 +155,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
+                            this.getMakeWindow().getPageContainer().fresh();
                         }
                     } else {
                         if (endy < orgy) {
@@ -161,6 +165,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
+                            this.getMakeWindow().getPageContainer().fresh();
                         } else {
                             PictureBox pictureBox = new PictureBox(new Rectangle(orgx, orgy, endx - orgx, endy - orgy));
                             pb.setBounds(pictureBox.getBounds());
@@ -168,6 +173,7 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
                             //pictureBoxes.impact(pictureBoxes.getBoxList());
                             this.add(pictureBox);
                             this.setComponentZOrder(pictureBox, 0);
+                            this.getMakeWindow().getPageContainer().fresh();
                         }
                     }
                 }
@@ -248,6 +254,10 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         
     }
     
+    public makeWindow getMakeWindow(){
+        return (makeWindow)this.getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent().getParent();
+    }
+    
     public PictureBox getPictureBox(int x, int y) {
         int topx, topy, width, height;
         int flag = 0;
@@ -287,8 +297,10 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
             ImageIcon imgIcon = new ImageIcon(this.backgroundFile.getAbsolutePath());
             imgIcon.setImage(imgIcon.getImage().getScaledInstance(this.getBounds().width, this.getBounds().height, Image.SCALE_SMOOTH));
             this.backgroundLabel.setIcon(imgIcon);
+            this.backIcon = imgIcon;
         } else {
             this.backgroundLabel.setIcon(null);
+            this.backIcon = null;
         }
     }
 
@@ -363,5 +375,22 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
     public void setUndoQueue(UndoQueue undoQueue) {
         this.undoQueue = undoQueue;
     }
+
+    public ImageIcon getBackIcon() {
+        return backIcon;
+    }
+
+    public void setBackIcon(ImageIcon backIcon) {
+        this.backIcon = backIcon;
+    }
+
+    public JLabel getBackgroundLabel() {
+        return backgroundLabel;
+    }
+
+    public void setBackgroundLabel(JLabel backgroundLabel) {
+        this.backgroundLabel = backgroundLabel;
+    }
+    
     
 }
