@@ -27,25 +27,25 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
 
     private File backgroundFile;
     private ImageIcon backIcon;
-    private double zoom;//缩放比例
+    private transient double zoom;//缩放比例
     private PictureBoxList pictureBoxes;
     private TextBoxList textBoxList;
-    private int orgx, orgy, endx, endy;
-    private int insertStatus;
+    private transient int orgx, orgy, endx, endy;
+    private transient int insertStatus;
     private PictureBox pb;
-    private boolean isTopLeft;//改变大小所需标志
-    private boolean isTop;
-    private boolean isTopRight;
-    private boolean isRight;
-    private boolean isBottomRight;
-    private boolean isBottom;
-    private boolean isBottomLeft;
-    private boolean isLeft;
-    private final static int RESIZE_WIDTH = 5;
-    private final static int MIN_WIDTH = 20;
-    private final static int MIN_HEIGHT = 20;
+    private transient boolean isTopLeft;//改变大小所需标志
+    private transient boolean isTop;
+    private transient boolean isTopRight;
+    private transient boolean isRight;
+    private transient boolean isBottomRight;
+    private transient boolean isBottom;
+    private transient boolean isBottomLeft;
+    private transient boolean isLeft;
+    private transient final static int RESIZE_WIDTH = 5;
+    private transient final static int MIN_WIDTH = 20;
+    private transient final static int MIN_HEIGHT = 20;
     private JLabel backgroundLabel;
-    private UndoQueue undoQueue;
+    private  UndoQueue undoQueue;
 
     public Page(int width, int height) {//毫米转换为像素
         this.setSize((int) (width * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4),
@@ -318,6 +318,8 @@ public class Page extends JPanel implements MouseListener, MouseMotionListener {
         }
     }
 
+    
+    
     public PictureBoxList getPictureBoxes() {
         return pictureBoxes;
     }

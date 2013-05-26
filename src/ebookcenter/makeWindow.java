@@ -14,6 +14,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
@@ -25,7 +33,7 @@ import javax.swing.JTextPane;
  *
  * @author think
  */
-public class makeWindow extends javax.swing.JFrame implements MouseListener{
+public class makeWindow extends javax.swing.JFrame implements MouseListener {
 
     private Project currentProject;
     private PageArea pageArea;
@@ -178,7 +186,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener{
         fontSize.addItem("32");
         fontSize.addItem("48");
         fontSize.addItem("72");
-        
+
         this.addMouseListener(this);
     }
 
@@ -759,6 +767,22 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener{
         //打开项目
         String str = evt.getActionCommand();
         if (str.equals("打开项目")) {
+            if (this.currentProject == null) {
+                JFileChooser dlg = new JFileChooser();
+                dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                dlg.setMultiSelectionEnabled(false);
+                EbookFilter ebookFilter = new EbookFilter();
+                dlg.addChoosableFileFilter(ebookFilter);
+                dlg.setDialogTitle("选择要打开的文件");
+                dlg.showOpenDialog(this);
+                try {
+                    this.openFile(dlg.getSelectedFile().getAbsolutePath());
+                } catch (IOException ex) {
+                    Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                //提醒是否保存当前项目
+            }
         }
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -894,7 +918,58 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener{
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
         //另存为
+        if (this.currentProject != null) {
+            JFileChooser dlg = new JFileChooser();
+            dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            dlg.setMultiSelectionEnabled(false);
+            dlg.setDialogTitle("选择保存路径");
+            dlg.showSaveDialog(this);
+            this.saveFile(dlg.getSelectedFile().getAbsolutePath());
+        } else {
+            JOptionPane.showMessageDialog(null, "当前无项目，无法保存！", "警告", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    public void saveFile(String file) {
+        try {
+            FileOutputStream f = new FileOutputStream(file + ".ebf");
+            ObjectOutputStream s = new ObjectOutputStream(f);
+            s.writeObject(this.currentProject);
+            s.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void openFile(String file) throws IOException {
+        try {
+            Project p = null;
+            FileInputStream f = null;
+            f = new FileInputStream(file);
+            ObjectInputStream s =
+                    new ObjectInputStream(f);
+            p = (Project) s.readObject();//读对象
+            this.setCurrentProject(p);
+            if (!p.getPages().isEmpty()) {
+                for(int i =0; i<p.getPages().size(); i++){
+                    p.getPage(i).getUndoQueue().removeAll();
+                }
+                this.getCurrentProject().setCurrentPage(0);
+                this.getPageArea().add(this.getCurrentProject().getPage(0));
+                this.getPageArea().setScrollSize(210, 297);//设置滚动条
+                this.pageContainer.fresh();
+                this.getPageArea().refresh();
+                this.getPageArea().updateUI();
+            }
+            s.close();
+            f.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
@@ -999,10 +1074,10 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener{
                 dpw.setVisible(true);
                 dpw.setAlwaysOnTop(true);
                 this.setEnabled(false);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "当前页面可删除！", "警告", JOptionPane.WARNING_MESSAGE);
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "当前无项目！", "警告", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
@@ -1092,10 +1167,10 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1){
-            if(e.getClickCount() == 1){
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.getClickCount() == 1) {
                 this.requestFocus();
-               
+
             }
         }
     }

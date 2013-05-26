@@ -6,6 +6,7 @@ package ebookcenter;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author think
  */
-public class UndoQueue {
+public class UndoQueue implements Serializable {
 
     private int flag;
     private List<OperationStruct> queue;
@@ -27,6 +28,11 @@ public class UndoQueue {
         flag = -1;
     }
 
+    public void removeAll(){
+        this.queue.removeAll(queue);
+        flag = -1;
+    }
+    
     public void push(Rectangle start, int boxType, int boxId) {
         for (int i = flag + 1; i < queue.size(); i++) {
             queue.remove(i);
@@ -34,8 +40,8 @@ public class UndoQueue {
         queue.add(new OperationStruct(start, boxType, boxId));
         flag = queue.size() - 1;
     }
-    
-    public void append(Rectangle end){
+
+    public void append(Rectangle end) {
         queue.get(flag).append(end);
     }
 
@@ -44,20 +50,19 @@ public class UndoQueue {
     }
 
     public OperationStruct undo() {
-       if(flag>=0){
-           return queue.get(flag--);
-       }else{
-           return null;
-       }
+        if (flag >= 0) {
+            return queue.get(flag--);
+        } else {
+            return null;
+        }
     }
 
-    
     public OperationStruct redo() {
-      if(flag < queue.size()-1){
-          return queue.get(++flag);
-      }else{
-          return null;
-      }
+        if (flag < queue.size() - 1) {
+            return queue.get(++flag);
+        } else {
+            return null;
+        }
     }
 
     public int getFlag() {

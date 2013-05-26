@@ -4,6 +4,7 @@
  */
 package ebookcenter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * @author think
  */
-public class TextBoxList {
+public class TextBoxList implements Serializable{
     private List<TextBox> textBoxList;
 
     public TextBoxList() {

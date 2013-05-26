@@ -4,6 +4,14 @@
  */
 package ebookcenter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -11,11 +19,14 @@ package ebookcenter;
  */
 public class bookWindow extends javax.swing.JFrame {
 
+    
+    private List<File> ebookFile;
     /**
      * Creates new form bookWindow
      */
     public bookWindow() {
         initComponents();
+        ebookFile = new ArrayList<File>();
     }
 
     /**
@@ -76,6 +87,31 @@ public class bookWindow extends javax.swing.JFrame {
                 new bookWindow().setVisible(true);
             }
         });
+    }
+
+    public void searchFile(File file) {
+        File f = new File(file.getAbsolutePath());
+        File temp[] = f.listFiles();
+        for (int h = 0; h < temp.length; h++) {
+            if(temp[h].isDirectory())searchFile(temp[h]);
+            else if (temp[h].getAbsolutePath().endsWith("ebf")) {
+               ebookFile.add(temp[h]);
+            }
+        }
+    }
+    
+    public Project openFile(String file) throws IOException {
+        Project p = null;
+        try {
+            FileInputStream f = null;
+            f = new FileInputStream(file);
+            ObjectInputStream s = new ObjectInputStream(f);
+            p = (Project) s.readObject();//读对象
+            s.close();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return p;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

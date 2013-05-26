@@ -17,7 +17,7 @@ public class Project implements Serializable{
 
     private String name;
     private List<Page> pages;
-    private int currentPage;
+    private transient int currentPage;
     private int pageWidth;
     private int pageHeight;
 

@@ -5,6 +5,7 @@
 package ebookcenter;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
@@ -13,10 +14,10 @@ import javax.swing.SwingUtilities;
  *
  * @author think
  */
-public class PictureBoxList {
+public class PictureBoxList implements Serializable{
 
     private List<PictureBox> boxList;
-    private Page parentPage;
+    private transient Page parentPage;
 
     public PictureBoxList() {
         boxList = new ArrayList<PictureBox>();

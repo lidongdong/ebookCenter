@@ -5,12 +5,13 @@
 package ebookcenter;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 /**
  *
  * @author think
  */
-public class OperationStruct {
+public class OperationStruct  implements Serializable{
 
     private Rectangle start;
     private Rectangle end;
