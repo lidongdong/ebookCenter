@@ -170,6 +170,8 @@ public class NewPageWindow extends javax.swing.JFrame {
                         if ("".equals(newPageWidth.getText()) || "".equals(newPageHeight.getText())) {
                             JOptionPane.showMessageDialog(null, "页面的高和宽请输入整数!", "警告", JOptionPane.WARNING_MESSAGE);
                         } else {
+                            parent.getCurrentProject().setTrueWidth(Integer.valueOf(newPageWidth.getText()));
+                            parent.getCurrentProject().setTrueHeight(Integer.valueOf(newPageHeight.getText()));
                             for (int i = 0; i < number; i++) {
                                 Page page = new Page(Integer.valueOf(newPageWidth.getText()), Integer.valueOf(newPageHeight.getText()));
                                 parent.getCurrentProject().getPages().add(page);

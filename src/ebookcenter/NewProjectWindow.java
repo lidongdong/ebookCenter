@@ -236,9 +236,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
                             this.parent.getCurrentProject().setCurrentPage(0);
                             this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                             this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                            this.parent.getPageArea().setScrollSize(210, 297);//设置滚动条
-                            this.parent.getPageArea().updateUI();
-
+                            this.parent.getPageArea().setScrollSize(230, 317);//设置滚动条
+                            //this.parent.getPageArea().updateUI();
+                            this.parent.getPageArea().refresh();
                             flag = true;
                         } else {
                             if (this.jRadioButton2.isSelected()) {
@@ -251,8 +251,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                 this.parent.getCurrentProject().setCurrentPage(0);
                                 this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                                 this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                                this.parent.getPageArea().setScrollSize(297, 420);//设置滚动条
-                                this.parent.getPageArea().updateUI();
+                                this.parent.getPageArea().setScrollSize(317, 440);//设置滚动条
+                                //this.parent.getPageArea().updateUI();
+                                this.parent.getPageArea().refresh();
                                 flag = true;
                             } else {
                                 if (this.jRadioButton3.isSelected()) {
@@ -274,8 +275,9 @@ public class NewProjectWindow extends javax.swing.JFrame {
                                             this.parent.getCurrentProject().setCurrentPage(0);
                                             this.parent.getCurrentProject().getPage(0).selectBounds(this.parent.getPageArea());
                                             this.parent.getPageArea().add(this.parent.getCurrentProject().getPage(0));
-                                            this.parent.getPageArea().setScrollSize(Integer.parseInt(this.pageWidth.getText().toString()), Integer.parseInt(this.pageHeight.getText().toString()));//设置滚动条
-                                            this.parent.getPageArea().updateUI();
+                                            this.parent.getPageArea().setScrollSize(Integer.parseInt(this.pageWidth.getText().toString())+20, Integer.parseInt(this.pageHeight.getText().toString())+20);//设置滚动条
+                                           // this.parent.getPageArea().updateUI();
+                                            this.parent.getPageArea().refresh();
                                             flag = true;
                                         }
                                     }

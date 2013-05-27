@@ -58,6 +58,7 @@ public class PictureBox extends JLabel implements MouseListener, MouseMotionList
     public PictureBox(Rectangle rect) {
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         imageIcon = new ImageIcon();
+        imageIcon = null;
         setHorizontalAlignment(JLabel.CENTER);
         this.setBounds(rect);
         layer = 2;

@@ -22,7 +22,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -41,7 +40,6 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
     private PictureContainer pictureContainer;
     private BackgroundContainer backgroundContainer;
     private PageContainer pageContainer;
-    public UndoQueue undoQueue;
 
     public PageContainer getPageContainer() {
         return pageContainer;
@@ -282,7 +280,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1))
         );
 
@@ -531,7 +529,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("文本", textSetting);
@@ -544,7 +542,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 393, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", jPanel9);
@@ -690,6 +688,11 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
         jMenu4.setText("工具");
 
         jMenuItem6.setText("设置");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem6);
 
         jMenuBar1.add(jMenu4);
@@ -773,8 +776,10 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
                 dlg.setMultiSelectionEnabled(false);
                 EbookFilter ebookFilter = new EbookFilter();
                 dlg.addChoosableFileFilter(ebookFilter);
+                dlg.setCurrentDirectory(new File(configWindow.readFile().getSaveDir()));
                 dlg.setDialogTitle("选择要打开的文件");
                 dlg.showOpenDialog(this);
+                if(dlg.getSelectedFile()!=null)
                 try {
                     this.openFile(dlg.getSelectedFile().getAbsolutePath());
                 } catch (IOException ex) {
@@ -922,6 +927,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
             JFileChooser dlg = new JFileChooser();
             dlg.setFileSelectionMode(JFileChooser.FILES_ONLY);
             dlg.setMultiSelectionEnabled(false);
+            dlg.setCurrentDirectory(new File(configWindow.readFile().getSaveDir()));
             dlg.setDialogTitle("选择保存路径");
             dlg.showSaveDialog(this);
             this.saveFile(dlg.getSelectedFile().getAbsolutePath());
@@ -934,6 +940,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
         try {
             FileOutputStream f = new FileOutputStream(file + ".ebf");
             ObjectOutputStream s = new ObjectOutputStream(f);
+            this.currentProject.setDate();
             s.writeObject(this.currentProject);
             s.close();
         } catch (FileNotFoundException ex) {
@@ -953,7 +960,7 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
             p = (Project) s.readObject();//读对象
             this.setCurrentProject(p);
             if (!p.getPages().isEmpty()) {
-                for(int i =0; i<p.getPages().size(); i++){
+                for (int i = 0; i < p.getPages().size(); i++) {
                     p.getPage(i).getUndoQueue().removeAll();
                 }
                 this.getCurrentProject().setCurrentPage(0);
@@ -1081,6 +1088,18 @@ public class makeWindow extends javax.swing.JFrame implements MouseListener {
             JOptionPane.showMessageDialog(null, "当前无项目！", "警告", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        //设置
+
+        // newPageWindow.setAlwaysOnTop(true);
+        configWindow cw = new configWindow(this);
+        
+        cw.setVisible(true);
+        this.setEnabled(false);
+        cw.requestFocus();
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments

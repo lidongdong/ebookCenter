@@ -4,6 +4,13 @@
  */
 package ebookcenter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 
 /**
@@ -17,6 +24,26 @@ public class mainWindow extends javax.swing.JFrame {
      */
     public mainWindow() {
         initComponents();
+        File file = new File("./src\\config\\property.cfg");
+        if (!file.exists()) {
+            FileOutputStream f = null;
+            try {
+                f = new FileOutputStream("./src\\config\\property.cfg");
+                ObjectOutputStream s = new ObjectOutputStream(f);
+                s.writeObject(new Property(System.getProperty("user.dir")));
+                s.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    f.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
     }
 
     /**
@@ -40,6 +67,11 @@ public class mainWindow extends javax.swing.JFrame {
         jButton1.setMaximumSize(new java.awt.Dimension(93, 23));
         jButton1.setMinimumSize(new java.awt.Dimension(93, 23));
         jButton1.setPreferredSize(new java.awt.Dimension(93, 23));
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("电子书制作");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -102,6 +134,11 @@ public class mainWindow extends javax.swing.JFrame {
         mw.setVisible(true);
         mw.requestFocus();
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+       //电子书架
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments

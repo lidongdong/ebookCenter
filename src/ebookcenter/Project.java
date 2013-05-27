@@ -7,22 +7,27 @@ package ebookcenter;
 import java.awt.Toolkit;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author think
  */
-public class Project implements Serializable{
+public class Project implements Serializable {
 
     private String name;
     private List<Page> pages;
     private transient int currentPage;
     private int pageWidth;
     private int pageHeight;
+    private int trueWidth, trueHeight;
+    private Date date;
 
     public Project() {
         pages = new ArrayList<Page>();
+        trueWidth = 0;
+        trueHeight = 0;
         currentPage = -1;
     }
 
@@ -33,9 +38,10 @@ public class Project implements Serializable{
             Page temp = new Page(pageWidth, pageHeight);
             pages.add(temp);
         }
-        this.setPageWidth((int)(pageWidth*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));
-        this.setPageHeight((int)(pageHeight*Toolkit.getDefaultToolkit().getScreenResolution()/25.4));
-
+        this.setPageWidth((int) (pageWidth * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
+        this.setPageHeight((int) (pageHeight * Toolkit.getDefaultToolkit().getScreenResolution() / 25.4));
+        trueWidth = pageWidth;
+        trueHeight = pageHeight;
         currentPage = 0;
     }
 
@@ -96,4 +102,30 @@ public class Project implements Serializable{
     public void setPageHeight(int pageHeight) {
         this.pageHeight = pageHeight;
     }
+
+    public void setDate() {
+        //SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        date = new Date();
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public int getTrueWidth() {
+        return trueWidth;
+    }
+
+    public void setTrueWidth(int trueWidth) {
+        this.trueWidth = trueWidth;
+    }
+
+    public int getTrueHeight() {
+        return trueHeight;
+    }
+
+    public void setTrueHeight(int trueHeight) {
+        this.trueHeight = trueHeight;
+    }
+    
 }

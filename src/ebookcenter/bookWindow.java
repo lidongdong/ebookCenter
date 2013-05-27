@@ -4,29 +4,66 @@
  */
 package ebookcenter;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author think
  */
-public class bookWindow extends javax.swing.JFrame {
+public class bookWindow extends javax.swing.JFrame implements MouseListener {
 
-    
+    JTable table;
     private List<File> ebookFile;
+
     /**
      * Creates new form bookWindow
      */
     public bookWindow() {
-        initComponents();
+
         ebookFile = new ArrayList<File>();
+        DefaultTableModel model = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        table = new JTable(model);
+        //table.setRowSorter((new TableRowSorter(model)));
+        model.addColumn("名称");
+        model.addColumn("类型");
+        model.addColumn("日期");
+        this.getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        refresh(configWindow.readFile().getSaveDir());
+        for (int i = 0; i < ebookFile.size(); i++) {
+            try {
+                model.addRow(new Object[]{openFile(ebookFile.get(i).getAbsolutePath()).getName(),
+                    "大小" + openFile(ebookFile.get(i).getAbsolutePath()).getTrueWidth() + "*" + openFile(ebookFile.get(i).getAbsolutePath()).getTrueHeight() + "mm",
+                    sf.format(openFile(ebookFile.get(i).getAbsolutePath()).getDate())});
+            } catch (IOException ex) {
+                Logger.getLogger(bookWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        table.addMouseListener(this);
+        initComponents();
     }
 
     /**
@@ -39,17 +76,6 @@ public class bookWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -84,22 +110,27 @@ public class bookWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new bookWindow().setVisible(true);
+                bookWindow bw = new bookWindow();
+
+                bw.setVisible(true);
             }
         });
     }
 
-    public void searchFile(File file) {
-        File f = new File(file.getAbsolutePath());
-        File temp[] = f.listFiles();
-        for (int h = 0; h < temp.length; h++) {
-            if(temp[h].isDirectory())searchFile(temp[h]);
-            else if (temp[h].getAbsolutePath().endsWith("ebf")) {
-               ebookFile.add(temp[h]);
+    public void refresh(String dir) {
+        File file = new File(dir);
+        if (file.isDirectory()) {
+            File[] temp = file.listFiles();
+            for (int i = 0; i < temp.length; i++) {
+                refresh(temp[i].getAbsolutePath());
+            }
+        } else {
+            if (file.getAbsolutePath().endsWith("ebf")) {
+                ebookFile.add(file);
             }
         }
     }
-    
+
     public Project openFile(String file) throws IOException {
         Project p = null;
         try {
@@ -109,10 +140,47 @@ public class bookWindow extends javax.swing.JFrame {
             p = (Project) s.readObject();//读对象
             s.close();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(makeWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(makeWindow.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return p;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            if (e.getClickCount() == 2) {
+                play(table.rowAtPoint(e.getPoint()));
+            }
+        }
+    }
+
+    public void play(int index) {
+        try {
+            if (openFile((ebookFile.get(index)).getAbsolutePath()).getPages().isEmpty()) {
+            } else {
+                Player player = new Player(openFile((ebookFile.get(index)).getAbsolutePath()));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(bookWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
 }
